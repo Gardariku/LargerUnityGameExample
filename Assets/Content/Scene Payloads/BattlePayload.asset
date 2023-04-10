@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7870a4089224ce0bdb0ce4db43e07ef, type: 3}
+  m_Name: BattlePayload
+  m_EditorClassIdentifier: 
+  PlayerCharacters:
+  - m_AssetGUID: 453a0fb31592af34780f7e9eb97a8fa1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  EnemyCharacters:
+  - m_AssetGUID: a22f70f1d31c6654f8f691589b63db57
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  BackgroundSprite:
+    m_AssetGUID: 463b257aa15e2c441809a991a1dacc9e
+    m_SubObjectName: CmBkRK
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0

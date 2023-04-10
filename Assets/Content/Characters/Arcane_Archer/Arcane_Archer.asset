@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915b7eeb07874632994e9227505dc8cd, type: 3}
+  m_Name: Arcane_Archer
+  m_EditorClassIdentifier: 
+  ID: Arcane_Archer
+  Name: Arcane Archer
+  Icon: {fileID: 0}
+  Sprite: {fileID: -2800876817223335725, guid: de60ac243870b8640975b1b04452f737, type: 3}
+  IsHero: 0
+  DefaultStats: {fileID: 11400000, guid: b85543ad36de3234fa35267ace1c0c8c, type: 2}
+  Skills: []
+  Perks: []
+  Animations:
+  - Name: 0
+    Animation: {fileID: 7400000, guid: f18bc63d1050ac245b587c1a544507d2, type: 2}
+  - Name: 1
+    Animation: {fileID: 7400000, guid: aefdcea884fea0a48a988721ca76bf36, type: 2}
+  - Name: 2
+    Animation: {fileID: 7400000, guid: d938a8eb411cb5a4fad1560d9226420f, type: 2}
+  - Name: 3
+    Animation: {fileID: 7400000, guid: ea0a3f100b5e2b94a974402bc6f20e61, type: 2}
+  - Name: 4
+    Animation: {fileID: 7400000, guid: a6cd33a639d77c9448438313d046a63a, type: 2}
+  - Name: 7
+    Animation: {fileID: 7400000, guid: e6107212048e92f428f68900eb732ca9, type: 2}
+  - Name: 12
+    Animation: {fileID: 7400000, guid: ce18bf9203ce4a24087c89cf4c8be203, type: 2}
+  - Name: 15
+    Animation: {fileID: 7400000, guid: 4e5fb71be3e0bfe4aa958ec7e3d14e28, type: 2}

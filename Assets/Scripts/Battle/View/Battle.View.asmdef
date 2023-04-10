@@ -1,0 +1,17 @@
+{
+    "name": "Battle.View",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e0c2f010bd1e45a42b317a94b3cbb088",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

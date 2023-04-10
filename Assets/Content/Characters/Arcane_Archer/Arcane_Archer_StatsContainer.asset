@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b812d3dc4a4444adae812adfa041ca88, type: 3}
+  m_Name: Arcane_Archer_StatsContainer
+  m_EditorClassIdentifier: 
+  collection: {fileID: 11400000, guid: 69386e1174b42044b96a7068c83eb916, type: 2}
+  overrides:
+    overrides:
+    - definition: {fileID: 11400000, guid: 50377dccc90e78142afa702e2ca835d7, type: 2}
+      value:
+        _valueInt:
+          value: 0
+        _valueIntCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        _valueFloat:
+          value: 12
+        _valueFloatCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        type: 2
+    - definition: {fileID: 11400000, guid: f68768c1361ea1d439697f23b0652664, type: 2}
+      value:
+        _valueInt:
+          value: 6
+        _valueIntCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        _valueFloat:
+          value: 0
+        _valueFloatCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        type: 0
+    - definition: {fileID: 11400000, guid: 27c02f92f39b4974da6857bf43a2c36e, type: 2}
+      value:
+        _valueInt:
+          value: 14
+        _valueIntCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        _valueFloat:
+          value: 0
+        _valueFloatCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        type: 0
+    - definition: {fileID: 11400000, guid: 74775e2857403fa4290e6a0c494beae4, type: 2}
+      value:
+        _valueInt:
+          value: 200
+        _valueIntCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        _valueFloat:
+          value: 0
+        _valueFloatCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        type: 0
+    - definition: {fileID: 11400000, guid: 3a4141e45e6be27438099fa33972af19, type: 2}
+      value:
+        _valueInt:
+          value: 100
+        _valueIntCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        _valueFloat:
+          value: 0
+        _valueFloatCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        type: 0
+    - definition: {fileID: 11400000, guid: fec94b59401891c4c9d66b0a786bed5c, type: 2}
+      value:
+        _valueInt:
+          value: 10
+        _valueIntCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        _valueFloat:
+          value: 0
+        _valueFloatCurve:
+          value:
+            serializedVersion: 2
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        type: 0

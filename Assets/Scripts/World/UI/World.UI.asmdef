@@ -1,0 +1,17 @@
+{
+    "name": "World.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8fa6e7a0e56f6b944be32267533e26cb",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,16 @@
+{
+    "name": "NetherHermitPCD",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5f10dfcbc4b72dd44b81034aff548fa8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

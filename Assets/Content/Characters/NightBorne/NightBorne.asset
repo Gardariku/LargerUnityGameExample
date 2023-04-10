@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915b7eeb07874632994e9227505dc8cd, type: 3}
+  m_Name: NightBorne
+  m_EditorClassIdentifier: 
+  ID: NightBorne
+  Name: NightBorne
+  Icon: {fileID: 0}
+  Sprite: {fileID: -8804577451312863447, guid: a993d89a7b71783498a76dc1067ecd3c, type: 3}
+  IsHero: 0
+  DefaultStats: {fileID: 11400000, guid: 0c98af29cecacac42b392436b6b8a3c8, type: 2}
+  Skills: []
+  Perks: []
+  Animations:
+  - Name: 0
+    Animation: {fileID: 7400000, guid: 27c8688236c045e4ebf1d2016f40c98d, type: 2}
+  - Name: 1
+    Animation: {fileID: 7400000, guid: 506e7afe257a54d48adb5c6e5e9409ac, type: 2}
+  - Name: 2
+    Animation: {fileID: 7400000, guid: 4b45d2ce05f76494ea78f37e439e14fb, type: 2}
+  - Name: 3
+    Animation: {fileID: 7400000, guid: 3719348f2232e7447b94fe0ada6f597a, type: 2}
+  - Name: 4
+    Animation: {fileID: 7400000, guid: 282bccc4809208249a6faf3c63d7228a, type: 2}
+  - Name: 15
+    Animation: {fileID: 7400000, guid: e22dcbc841b021d408d6959debb02e1d, type: 2}

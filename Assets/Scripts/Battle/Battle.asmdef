@@ -1,0 +1,19 @@
+{
+    "name": "Battle",
+    "rootNamespace": "",
+    "references": [
+        "Common",
+        "MackySoft.SerializeReferenceExtensions",
+        "MackySoft.SerializeReferenceExtensions.Editor",
+        "com.fluid.stats"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

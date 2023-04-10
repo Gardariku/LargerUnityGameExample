@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 39209765e9b836d4d8f5af603aff3ac2
+  m_SerializeEntries:
+  - m_GUID: d56c4b4d47e4ad2439141657026fe8f8
+    m_Address: Assets/Scenes/BattleTestScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle
+  - m_GUID: 2cda990e2423bbf4892e6590ba056729
+    m_Address: Assets/Scenes/MainScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    - ui
+  - m_GUID: d15bf2982dd67344289868cef36e0c59
+    m_Address: Assets/Scenes/World.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - world
+  - m_GUID: a22f70f1d31c6654f8f691589b63db57
+    m_Address: Assets/Content/Characters/NightBorne/NightBorne.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 453a0fb31592af34780f7e9eb97a8fa1
+    m_Address: Assets/Content/Characters/Arcane_Archer/Arcane_Archer.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 463b257aa15e2c441809a991a1dacc9e
+    m_Address: Assets/Content/Battle/Backgrounds/CmBkRK.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - battle
+    - environment
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 4e35194928d2328459b9ce421235fe23, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 339cffb769d48164fb2778334788e699, type: 2}
+    - {fileID: 11400000, guid: af4f048a82afc8949bc313d4004f8766, type: 2}

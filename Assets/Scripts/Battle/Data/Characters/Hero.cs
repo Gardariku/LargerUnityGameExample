@@ -1,0 +1,26 @@
+using System.Collections.Generic;
+using Battle.Model.Items;
+using Battle.Model.Perks;
+using Battle.Model.Skills;
+using CleverCrow.Fluid.StatsSystem.StatsContainers;
+
+namespace Battle.Model.Characters
+{
+    public class Hero
+    {
+        public HeroData HeroData { get; }
+        public FighterData FighterData { get; }
+        public StatsContainer CurrentStats { get; }
+        
+        public List<SkillData> AcquiredSkills { get; } = new List<SkillData>();
+        public List<PerkData> AcquiredPerks { get; } = new List<PerkData>();
+        public List<ArtifactData> EquippedArtifacts { get; } = new List<ArtifactData>();
+        
+        public Hero(HeroData heroData, FighterData fighterData)
+        {
+            HeroData = heroData;
+            FighterData = fighterData;
+            CurrentStats = FighterData.DefaultStats.CreateRuntimeCopy();
+        }
+    }
+}

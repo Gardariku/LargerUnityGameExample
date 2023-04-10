@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67104309f2a84e43a483283b113a60c9, type: 3}
+  m_Name: Test World Structure Config
+  m_EditorClassIdentifier: 
+  useSeed: 0
+  seed: 0
+  moduleObjects:
+  - Module:
+      Display: X
+      Weight: 0
+      Type: 0
+    PreviewSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - Module:
+      Display: .
+      Weight: 50
+      Type: 1
+    PreviewSprite: {fileID: -1358838706, guid: 0d8db2de15272114f8027711d2dd586a, type: 3}
+  - Module:
+      Display: R
+      Weight: 0
+      Type: 2
+    PreviewSprite: {fileID: 1521046176, guid: 3befb5b48ddbb1e49a996484000ab81c, type: 3}
+  - Module:
+      Display: O
+      Weight: 0
+      Type: 3
+    PreviewSprite: {fileID: -2126701744, guid: 4fc22629881d28f4cb212953fe2e2320, type: 3}
+  - Module:
+      Display: W
+      Weight: 0
+      Type: 4
+    PreviewSprite: {fileID: 1201979388, guid: dcebb48092dc0f84a8d2293e6d5f0b55, type: 3}
+  - Module:
+      Display: B
+      Weight: 0
+      Type: 5
+    PreviewSprite: {fileID: 618244403, guid: dcebb48092dc0f84a8d2293e6d5f0b55, type: 3}
+  - Module:
+      Display: E
+      Weight: 2
+      Type: 6
+    PreviewSprite: {fileID: 197904218, guid: 95a8758bdfb96d944b338f260fca290e, type: 3}
+  - Module:
+      Display: T
+      Weight: 1
+      Type: 7
+    PreviewSprite: {fileID: 2050221047, guid: 95a8758bdfb96d944b338f260fca290e, type: 3}
+  - Module:
+      Display: S
+      Weight: 2
+      Type: 8
+    PreviewSprite: {fileID: 535549937, guid: 95a8758bdfb96d944b338f260fca290e, type: 3}
+  - Module:
+      Display: L
+      Weight: 10
+      Type: 9
+    PreviewSprite: {fileID: 1129055656, guid: 95a8758bdfb96d944b338f260fca290e, type: 3}
+  - Module:
+      Display: G
+      Weight: 1
+      Type: 10
+    PreviewSprite: {fileID: 724376182, guid: 95a8758bdfb96d944b338f260fca290e, type: 3}
+  Width: 25
+  Height: 25
