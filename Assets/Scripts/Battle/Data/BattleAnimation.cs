@@ -1,4 +1,4 @@
-namespace Battle.View
+namespace Battle.Data
 {
     public enum BattleAnimation
     {

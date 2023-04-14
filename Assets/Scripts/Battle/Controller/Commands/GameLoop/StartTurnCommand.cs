@@ -12,7 +12,11 @@ namespace Battle.Controller.Commands
 
             if (currentCharacter.Team != Team.Player)
             {
-                controller.AddCommandMainLast(AI.CalculateTurn(currentCharacter, controller));
+                foreach (var action in AI.CalculateTurn(currentCharacter, controller))
+                {
+                    controller.AddLoop(controller.ActionLoop.Start());
+                    controller.AddCommandMainLast(action);
+                }
             }
             //return new List<BattleCommand> {new EndTurnCommand()};
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller.Commands;
+using Battle.Data;
 using Common.Data_Structures;
 using Battle.Model;
 using Battle.Model.Characters;
@@ -15,6 +16,7 @@ namespace Battle.Controller
         public BattleModel BattleModel => BattleLoop.Model;
         public RoundModel RoundModel => RoundLoop.Model;
         public TurnModel TurnModel => TurnLoop.Model;
+        // TODO: Consider using priority queue
         // Commands added to this queue will be executed AFTER execution of command, that added them
         private Deque<IBattleCommand> _mainQueue = new ();
         // Commands added to this queue will be executed DURING execution of command, that added them
@@ -33,12 +35,14 @@ namespace Battle.Controller
         public BattleLoop BattleLoop { get; private set; }
         public RoundLoop RoundLoop { get; private set; }
         public TurnLoop TurnLoop { get; private set; }
+        public ActionLoop ActionLoop { get; private set; }
 
         public void Setup(FighterData[] PlayerTeam, FighterData[] EnemyTeam)
         {
             BattleLoop = new BattleLoop(this);
             RoundLoop = new RoundLoop(this);
             TurnLoop = new TurnLoop(this);
+            ActionLoop = new ActionLoop(this);
 
             BattleLoop.Model = new BattleModel(PlayerTeam, EnemyTeam, this);
             AddLoop(BattleLoop.Start());
@@ -48,7 +52,9 @@ namespace Battle.Controller
         private void Update()
         {
             if (_batchQueue.Count > 0)
+            {
                 _batchQueue.RemoveFirst().Execute(this, BattleModel);
+            }
             
             if (_locks > 0 || _isBusy) return;
             if (_mainQueue.Count > 0)
@@ -156,6 +162,7 @@ namespace Battle.Controller
         // TODO: Move these methods to Character
         public void UseSkill(Character user, SkillData skill, List<Character> targets)
         {
+            AddLoop(ActionLoop.Start());
             _mainQueue.AddLast(new UseSkillCommand(skill, user, targets));
         }
 
@@ -166,6 +173,7 @@ namespace Battle.Controller
             if (!(attacker.CurrentStats.GetStatInt("RANGE") >= BattleModel.Field.CalculateDistance(attacker, target))) 
                 return false;
             
+            AddLoop(ActionLoop.Start());
             AddCommandMainFirst(new AttackCommand(attacker, target));
             AddCommandMainLast(new ChangeDimStatCommand(attacker, stamina, stamina.CurrentValue - 1));
             return true;
@@ -173,6 +181,7 @@ namespace Battle.Controller
 
         public bool TryMove(Character character, Vector2Int targetPosition)
         {
+            AddLoop(ActionLoop.Start());
             Debug.Log($"Tried to move character {character.Data.Name} to {targetPosition}");
             Vector2Int[] path = BattleModel.Field.FindPath(character.Position, targetPosition);
             if (!(character.DiminishingStats.TryGetValue("STAMINA", out var stamina) && stamina.CurrentValue > 0 
@@ -215,6 +224,8 @@ namespace Battle.Controller
 
         public class CharacterEventsContainer
         {
+            public Action CharacterActionStarted;
+            public Action CharacterActionFinished;
             public Action<MoveCharacterCommand> CharacterMoveStarted;
             public Action<MoveCharacterCommand> CharacterMoveFinished;
             public Action<StepCommand> CharacterStepStarted;

@@ -81,7 +81,7 @@ MonoBehaviour:
     - definition: {fileID: 11400000, guid: 74775e2857403fa4290e6a0c494beae4, type: 2}
       value:
         _valueInt:
-          value: 200
+          value: 75
         _valueIntCurve:
           value:
             serializedVersion: 2

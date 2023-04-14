@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Battle.Data;
 using Battle.Model.Perks;
 using Battle.Model.Skills;
-using Battle.View;
 using CleverCrow.Fluid.StatsSystem.StatsContainers;
 using UnityEngine;
 

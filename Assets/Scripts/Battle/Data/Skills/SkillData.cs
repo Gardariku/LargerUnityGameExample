@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Battle.Controller;
-using Battle.View;
+using Battle.Data;
 using UnityEngine;
 
 namespace Battle.Model.Skills

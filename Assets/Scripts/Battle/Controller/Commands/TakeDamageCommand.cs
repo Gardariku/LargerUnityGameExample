@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Battle.Model;
 
 namespace Battle.Controller.Commands

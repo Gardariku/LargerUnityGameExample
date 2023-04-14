@@ -7,6 +7,7 @@ namespace Battle.Controller
 {
     public static class AI
     {
+        // TODO: implement actual AI
         public static List<IBattleCommand> CalculateTurn(Character character, BattleController controller)
         {
             List<IBattleCommand> sequence = new List<IBattleCommand>();

@@ -1,5 +1,6 @@
 using System.Collections;
 using Battle.Model;
+using UnityEngine;
 
 namespace Battle.Controller
 {
@@ -19,14 +20,16 @@ namespace Battle.Controller
             {
                 Model.WaitingForInput = true;
 
-                while (Model.WaitingForInput)
-                {
-                    yield return null;
-                }
+                yield return new WaitWhile(() => Model.WaitingForInput);
             }
             else
             {
-                _controller.AddCommandMainLast(AI.CalculateTurn(currentCharacter, _controller));
+                foreach (var action in AI.CalculateTurn(currentCharacter, _controller))
+                {
+                    _controller.AddLoop(_controller.ActionLoop.Start());
+                    _controller.AddCommandMainLast(action);
+                    yield return null;
+                }
             }
             yield return null;
 

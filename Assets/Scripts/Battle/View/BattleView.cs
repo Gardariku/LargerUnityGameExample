@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller;
 using Battle.Controller.Commands;
+using Battle.Data;
 using Battle.Model;
 using Battle.View.Field;
 using UnityEngine;
@@ -57,7 +58,8 @@ namespace Battle.View
         }
         private void SubscribeOnCharacterEvents()
         {
-            Controller.CharacterEvents.CharacterAttackFinished += OnCharacterAttack;
+            Controller.CharacterEvents.CharacterActionStarted += OnCharacterAnimationStarted;
+            Controller.CharacterEvents.CharacterActionFinished += OnCharacterAnimationFinished;
             Controller.CharacterEvents.CharacterDeathFinished += OnCharacterDied;
         }
 
@@ -75,37 +77,21 @@ namespace Battle.View
             characterView.Load(character, this);
             _characters.Add(characterView);
         }
-
-        // TODO: REFACTOR THIS NONSENSE, MAKE CHARACTERS INDEPENDENT
-        private void OnCharacterAttack(AttackCommand command)
-        {
-            Debug.Log(command.Attacker.Data.Name + " is attacking " + command.Target.Data.Name);
-            StartCoroutine(CharacterAttack(command));
-        }
-        private IEnumerator CharacterAttack(AttackCommand command)
-        {
-            Controller.Lock();
-            var prevState = State;
-            CharacterView attackerView = GetCharacterView(command.Attacker);
-            CharacterView targetView = GetCharacterView(command.Target);
-            State = BattleState.Animation;
-            
-            StartCoroutine(attackerView.Attack());
-            targetView.IsBusy = true;
-            while (!attackerView.ReachedHitPoint)
-                yield return new WaitForEndOfFrame();
-            
-            yield return StartCoroutine(targetView.TakeDamage(command.DamageCommand.Damage));
-            attackerView.ReachedHitPoint = false;
-            State = prevState;
-            GetCharacterView(CurrentCharacter).HighlightTurn();
-            Debug.Log("Attack animation finished");
-            Controller.Unlock();
-        }
         
+        private void OnCharacterAnimationStarted()
+        {
+            _prevState = State;
+            State = BattleState.Animation;
+        }
+        private void OnCharacterAnimationFinished()
+        {
+            State = _prevState;
+            GetCharacterView(CurrentCharacter).HighlightTurn();
+        }
+
         private void OnCharacterDied(Character character)
         {
-            StartCoroutine(GetCharacterView(character).Die());
+            StartCoroutine(GetCharacterView(character).PlayAnimation(BattleAnimation.Death));
         }
 
         private void OnBattleStarted()

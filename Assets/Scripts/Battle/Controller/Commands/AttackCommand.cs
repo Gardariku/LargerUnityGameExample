@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Battle.Data;
 using Battle.Model;
 using UnityEngine;
 
@@ -20,14 +21,12 @@ namespace Battle.Controller.Commands
         {
             controller.CharacterEvents.CharacterAttackStarted?.Invoke(this);
             
+            Attacker.Events.Attacked?.Invoke(BattleAnimation.Attack);
             DamageCommand = new DealDamageCommand(Attacker, Target,
                 Attacker.CurrentStats.GetStatInt("DAMAGE"), DamageType.Physical);
-            controller.AddCommandBatchLast(DamageCommand);
-            
+            controller.AddCommandMainLast(DamageCommand);
 
             controller.CharacterEvents.CharacterAttackFinished?.Invoke(this);
-            if (!Target.IsAlive)
-                controller.AddCommandMainLast(new KillCommand(Target));
         }
     }
 }

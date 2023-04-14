@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Battle.Data;
 using Battle.Model;
 using Battle.View.Field;
 using DG.Tweening;
@@ -15,7 +16,6 @@ namespace Battle.View
         [field: SerializeField] public Character Character { get; private set; }
 
         public bool Direction => Character.Team == Team.Player;
-        public bool IsBusy = false;
         public bool ReachedHitPoint = false;
 
         [SerializeField] private SpriteRenderer _renderer;
@@ -29,6 +29,8 @@ namespace Battle.View
         private static Dictionary<ShaderProperty, int> shaderProperties = new (){
             {ShaderProperty.Color, Shader.PropertyToID("_OutlineColor")}, 
             {ShaderProperty.Thickness, Shader.PropertyToID("_OutlineThickness")} };
+
+        private static readonly int IsBusy = Animator.StringToHash("IsBusy");
 
         [Inject]
         public void Init(BattleView battleView, FieldView fieldView)
@@ -53,15 +55,16 @@ namespace Battle.View
             gameObject.AddComponent<PolygonCollider2D>();
             
             // Subscribe to character-specific events
-            character.Moved += OnCharacterMoved;
+            character.Events.Moved += OnCharacterMoved;
+            character.Events.Attacked += anim => StartCoroutine(PlayAnimation(anim));
+            character.Events.DamageTaken += _ => StartCoroutine(PlayAnimation(BattleAnimation.Hurt));
         }
 
         private void OnCharacterMoved(Vector2Int newPos)
         {
             _battleView.Controller.Lock();
-            _battleView.State = BattleState.Animation;
             transform.DOMove(_fieldView[newPos.x, newPos.y].transform.position, _moveTime)
-                .onComplete += () => { _battleView.ResetState(); _battleView.Controller.Unlock(); };
+                .onComplete += () => _battleView.Controller.Unlock();
         }
 
         private void OverrideAnimations()
@@ -79,7 +82,6 @@ namespace Battle.View
             _outlineMaterial.SetColor(color, Character.Team == Team.Player ? Color.blue : Color.yellow);
             _outlineMaterial.SetFloat(thickness, 1f);
         }
-
         public void HighlightTarget()
         {
             shaderProperties.TryGetValue(ShaderProperty.Color, out int color);
@@ -102,7 +104,6 @@ namespace Battle.View
             if (_battleView.State == BattleState.PlayerTurn && Character.Team != Team.Player)
                 HighlightTarget();
         }
-        
         private void OnMouseExit()
         {
             if (_battleView.State == BattleState.PlayerTurn && Character.Team != Team.Player)
@@ -118,66 +119,29 @@ namespace Battle.View
             }
         }
 
-        public IEnumerator Attack()
+        
+        // TODO: Try calling this via inspector reference (replace collection of clips with overriden controllers)
+        // Supposed to be called from the animation events
+        public void SetBusy(int value)
+        {
+            _animator.SetBool(IsBusy, value > 0);
+        }
+
+        public IEnumerator PlayAnimation(BattleAnimation animation)
         {
             StopHighlight();
-
-            IsBusy = true;
-            _animator.Play("Attack");
-            yield return new WaitForEndOfFrame();
-            while (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-                yield return new WaitForEndOfFrame();
-            
-            IsBusy = false;
-            yield return null;
-        }
-        
-        public void OnHitPoint()
-        {
-            ReachedHitPoint = true;
-        }
-
-        // TODO: Find better way to wait for animation end
-        public IEnumerator TakeDamage(int damage)
-        {
-            IsBusy = true;
-            _animator.Play("Hurt");
-            yield return new WaitForEndOfFrame();
-            while (_animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
-                yield return new WaitForEndOfFrame();
-            
-            IsBusy = false;
-            yield return null;
-        }
-        
-        public IEnumerator Die()
-        {
             _battleView.Controller.Lock();
-            while (IsBusy)
-                yield return new WaitForEndOfFrame();
+            string animationName = animation.ToString();
             
-            IsBusy = true;
-            Debug.Log(Character.Data.Name + " has died");
-            _animator.SetBool("IsDead", true);
-            _animator.Play("Death");
+            _animator.SetBool(IsBusy, true);
+            _animator.Play(animationName);
             yield return new WaitForEndOfFrame();
-            while (_animator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
-                yield return new WaitForEndOfFrame();
-            
-            IsBusy = false;
+            yield return new WaitWhile(() => _animator.GetBool(IsBusy));
+
             _battleView.Controller.Unlock();
-            yield return null;
         }
     }
 
-    public enum CharacterState
-    {
-        Idle = 0,
-        Turn,
-        Animation,
-        Target
-    }
-    
     public enum ShaderProperty
     {
         Color = 0,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Battle.Controller;
 using Battle.Controller.Commands;
 using Battle.Controller.Field;
+using Battle.Data;
 using Battle.Model.Characters;
 using Battle.Model.Perks;
 using Battle.Model.Skills;
@@ -31,9 +32,7 @@ namespace Battle.Model
         public List<SkillData> Skills = new ();
         public List<Perk> Perks = new ();
         public BattleController Controller { get; }
-
-        public event Action<int> DamageTaken;
-        public event Action<Vector2Int> Moved;
+        public PrivateCharacterEvents Events { get; private set; } = new();
 
         public Character(FighterData data, Team team, BattleController controller, int id)
         {
@@ -81,7 +80,7 @@ namespace Battle.Model
         public void Move(Vector2Int newPos)
         {
             Position = newPos;
-            Moved?.Invoke(newPos);
+            Events.Moved?.Invoke(newPos);
         }
 
         // TODO: Add death check and event?
@@ -92,7 +91,9 @@ namespace Battle.Model
             {
                 health.CurrentValue = Mathf.Clamp(health.CurrentValue - damage, 0, health.CurrentValue);
                 //Controller.CharacterEvents.CharacterDiminishingStatChanged?.Invoke(this, health);
-                DamageTaken?.Invoke(damage);
+                Events.DamageTaken?.Invoke(damage);
+                if (!IsAlive)
+                    Controller.AddCommandMainLast(new KillCommand(this));
                 Debug.Log(Data.Name + " has taken " + damage + " damage and now has " + health.CurrentValue + "hp");
             }
         }
@@ -105,6 +106,13 @@ namespace Battle.Model
                 //Controller.CharacterEvents.CharacterDiminishingStatChanged(this, health);
             }
         }
+    }
+
+    public class PrivateCharacterEvents
+    {
+        public Action<int> DamageTaken;
+        public Action<Vector2Int> Moved;
+        public Action<BattleAnimation> Attacked;
     }
 
     public enum Team
