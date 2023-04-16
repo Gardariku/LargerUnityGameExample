@@ -1,8 +1,7 @@
 using System.Collections;
-using Battle.Model;
 using UnityEngine;
 
-namespace Battle.Controller
+namespace Battle.Controller.GameplayLoops
 {
     public class TurnLoop : GameplayLoop<TurnModel>
     {

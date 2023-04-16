@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Battle.Data;
-using Battle.Model.Perks;
-using Battle.Model.Skills;
+using Battle.Data.Perks;
+using Battle.Data.Skills;
 using CleverCrow.Fluid.StatsSystem.StatsContainers;
 using UnityEngine;
 
-namespace Battle.Model.Characters
+namespace Battle.Data.Characters
 {
     [CreateAssetMenu(fileName = "New Combatant", menuName = "Build/Characters/Combatant", order = 0)]
     public class FighterData : ScriptableObject

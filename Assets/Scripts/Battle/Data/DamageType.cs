@@ -1,4 +1,4 @@
-namespace Battle.Model
+namespace Battle.Data
 {
     public enum DamageType
     {

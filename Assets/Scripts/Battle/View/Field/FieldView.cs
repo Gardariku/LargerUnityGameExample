@@ -1,6 +1,6 @@
+using Battle.Controller;
 using Battle.Controller.Commands;
 using Battle.Controller.Field;
-using Battle.Model;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;

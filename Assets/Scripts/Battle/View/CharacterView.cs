@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Battle.Controller;
 using Battle.Data;
-using Battle.Model;
 using Battle.View.Field;
 using DG.Tweening;
 using UnityEngine;

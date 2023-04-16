@@ -1,7 +1,8 @@
 using System;
+using Battle.Controller;
 using UnityEngine;
 
-namespace Battle.Model.Perks
+namespace Battle.Data.Perks
 {
     [Serializable]
     public abstract class PerkTriggerData

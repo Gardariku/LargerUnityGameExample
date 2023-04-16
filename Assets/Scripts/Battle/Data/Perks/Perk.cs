@@ -2,7 +2,7 @@ using System.Linq;
 using Battle.Controller;
 using UnityEngine;
 
-namespace Battle.Model.Perks
+namespace Battle.Data.Perks
 {
     public class Perk
     {

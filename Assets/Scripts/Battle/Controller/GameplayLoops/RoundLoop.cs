@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller.Commands;
-using Battle.Model;
 
-namespace Battle.Controller
+namespace Battle.Controller.GameplayLoops
 {
     public class RoundLoop : GameplayLoop<RoundModel>
     {

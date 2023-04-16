@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Battle.Controller.Commands;
-using Battle.Model;
 using UnityEngine;
 
 namespace Battle.Controller.Field

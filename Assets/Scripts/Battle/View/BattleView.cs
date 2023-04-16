@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Battle.Controller;
 using Battle.Controller.Commands;
 using Battle.Data;
-using Battle.Model;
 using Battle.View.Field;
 using UnityEngine;
 using UnityEngine.PlayerLoop;

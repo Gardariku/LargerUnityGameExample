@@ -1,32 +1,28 @@
 using System;
 using System.Collections.Generic;
-using Battle.Controller;
-using Battle.Controller.Commands;
 using Battle.Controller.Field;
 using Battle.Data;
-using Battle.Model.Characters;
-using Battle.Model.Perks;
-using Battle.Model.Skills;
-using Battle.Model.Stats;
-using CleverCrow.Fluid.StatsSystem;
+using Battle.Data.Characters;
+using Battle.Data.Perks;
+using Battle.Data.Skills;
+using Battle.Data.Stats;
 using CleverCrow.Fluid.StatsSystem.StatsContainers;
-using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Battle.Model
+namespace Battle.Controller
 {
     [Serializable]
     public class Character : IFieldObject
     {
         [field: SerializeField] public FighterData Data { get; private set; }
         public bool IsHero => Data.IsHero;
-        public bool IsAlive => DiminishingStats.TryGetValue("HEALTH", out var health) && health.CurrentValue > 0;
+        public bool IsAlive => DiminishingStats.TryGetValue(Stats.Health, out var health) && health.CurrentValue > 0;
         public int Id;
         public Team Team { get; private set;}
         public Vector2Int Position { get; set; }
         public Vector2Int Size => new(1, 1);
-        public int Speed => DiminishingStats.TryGetValue("STAMINA", out var stamina) && stamina.CurrentValue > 0 
-            ? CurrentStats.GetStatInt("SPEED") : 0;
+        public int Speed => DiminishingStats.TryGetValue(Stats.Stamina, out var stamina) && stamina.CurrentValue > 0 
+            ? CurrentStats.GetStatInt(Stats.Speed) : 0;
         public StatsContainer CurrentStats { get; set; }
         public Dictionary<string, DiminishingStat> DiminishingStats = new ();
         public List<SkillData> Skills = new ();
@@ -74,36 +70,6 @@ namespace Battle.Model
                     DiminishingStats.Add(statRecord.Definition.Id, dimStat);
                     CurrentStats.OnStatChangeSubscribe(statRecord, dimStat.StatDiminished);
                 }
-            }
-        }
-
-        public void Move(Vector2Int newPos)
-        {
-            Position = newPos;
-            Events.Moved?.Invoke(newPos);
-        }
-
-        // TODO: Add death check and event?
-        // Ok, maybe this stat system is kinda strange
-        public void TakeDamage(int damage)
-        {
-            if (DiminishingStats.TryGetValue("HEALTH", out var health))
-            {
-                health.CurrentValue = Mathf.Clamp(health.CurrentValue - damage, 0, health.CurrentValue);
-                //Controller.CharacterEvents.CharacterDiminishingStatChanged?.Invoke(this, health);
-                Events.DamageTaken?.Invoke(damage);
-                if (!IsAlive)
-                    Controller.AddCommandMainLast(new KillCommand(this));
-                Debug.Log(Data.Name + " has taken " + damage + " damage and now has " + health.CurrentValue + "hp");
-            }
-        }
-
-        public void RestoreHealth(int heal)
-        {
-            if (DiminishingStats.TryGetValue("HEALTH", out var health))
-            {
-                health.CurrentValue = Mathf.Clamp(health.CurrentValue + heal, 0, health.MainStat.GetValueInt());
-                //Controller.CharacterEvents.CharacterDiminishingStatChanged(this, health);
             }
         }
     }

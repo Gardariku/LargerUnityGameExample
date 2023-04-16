@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Battle.Model
+namespace Battle.Data
 {
     public class ISkillEffect : ScriptableObject
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Battle.Model.Characters
+namespace Battle.Data.Characters
 {
     public class HeroData : ScriptableObject
     {

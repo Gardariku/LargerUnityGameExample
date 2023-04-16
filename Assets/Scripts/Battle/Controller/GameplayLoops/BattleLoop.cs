@@ -1,7 +1,6 @@
 using System.Collections;
-using Battle.Model;
 
-namespace Battle.Controller
+namespace Battle.Controller.GameplayLoops
 {
     public class BattleLoop : GameplayLoop<BattleModel>
     {
@@ -13,7 +12,7 @@ namespace Battle.Controller
                 yield return _controller.RoundLoop.Start();
             }
 
-            yield break;
+            _controller.GameStateEvents.GameEnded?.Invoke(Model.Winner);
         }
 
         public BattleLoop(BattleController controller) : base(controller)

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using Battle.Controller;
-using Battle.Data;
 using UnityEngine;
 
-namespace Battle.Model.Skills
+namespace Battle.Data.Skills
 {
     [CreateAssetMenu(fileName = "New Skill", menuName = "Build/Skills/Skill")]
     public class SkillData : ScriptableObject

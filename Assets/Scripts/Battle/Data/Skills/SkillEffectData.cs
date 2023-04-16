@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Battle.Controller;
 using UnityEngine;
 
-namespace Battle.Model.Skills
+namespace Battle.Data.Skills
 {
     [Serializable]
     public abstract class SkillEffectData

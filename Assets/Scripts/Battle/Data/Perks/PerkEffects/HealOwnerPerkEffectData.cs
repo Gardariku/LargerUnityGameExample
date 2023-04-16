@@ -3,7 +3,7 @@ using Battle.Controller;
 using Battle.Controller.Commands;
 using UnityEngine;
 
-namespace Battle.Model.Perks.PerkEffects
+namespace Battle.Data.Perks.PerkEffects
 {
     [Serializable]
     public class HealOwnerPerkEffectData : PerkEffectData

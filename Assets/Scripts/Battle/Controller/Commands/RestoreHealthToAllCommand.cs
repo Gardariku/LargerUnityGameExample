@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Battle.Model;
 
 namespace Battle.Controller.Commands
 {
@@ -19,7 +18,7 @@ namespace Battle.Controller.Commands
         public void Execute(BattleController controller, BattleModel model)
         {
             foreach (var recipient in Recipients)
-                controller.AddCommandBatchFirst(new RestoreHealthCommand(Healer, recipient, Heal));
+                controller.AddCommandBatchLast(new RestoreHealthCommand(Healer, recipient, Heal));
         }
     }
 }

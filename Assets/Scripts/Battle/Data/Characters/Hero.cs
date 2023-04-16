@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Battle.Model.Items;
-using Battle.Model.Perks;
-using Battle.Model.Skills;
+using Battle.Data.Items;
+using Battle.Data.Perks;
+using Battle.Data.Skills;
 using CleverCrow.Fluid.StatsSystem.StatsContainers;
 
-namespace Battle.Model.Characters
+namespace Battle.Data.Characters
 {
     public class Hero
     {

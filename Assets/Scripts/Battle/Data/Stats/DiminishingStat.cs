@@ -2,7 +2,7 @@ using System;
 using CleverCrow.Fluid.StatsSystem;
 using UnityEngine.Events;
 
-namespace Battle.Model.Stats
+namespace Battle.Data.Stats
 {
     public class DiminishingStat
     {

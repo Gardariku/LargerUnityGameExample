@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Battle.Model;
+using Battle.Data;
 
 namespace Battle.Controller.Commands
 {
@@ -25,7 +25,7 @@ namespace Battle.Controller.Commands
             controller.CharacterEvents.CharacterDamageDealingStarted?.Invoke(this);
             //CalculateModifiers();
             controller.CharacterEvents.CharacterDamageDealingFinished?.Invoke(this);
-            Victim.TakeDamage(Damage);
+            controller.AddCommandBatchLast(new TakeDamageCommand(Victim, Damage));
         }
 
         private void CalculateModifiers()

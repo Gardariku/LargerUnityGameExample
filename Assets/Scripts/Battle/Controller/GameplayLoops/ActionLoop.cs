@@ -1,7 +1,6 @@
 using System.Collections;
-using Battle.Model;
 
-namespace Battle.Controller
+namespace Battle.Controller.GameplayLoops
 {
     public class ActionLoop : GameplayLoop<ActionModel>
     {

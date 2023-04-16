@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Battle.Controller
+namespace Battle.Controller.GameplayLoops
 {
     public abstract class GameplayLoop<T>
     {

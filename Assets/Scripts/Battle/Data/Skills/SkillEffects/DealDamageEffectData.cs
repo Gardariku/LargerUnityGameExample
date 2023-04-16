@@ -4,7 +4,7 @@ using Battle.Controller;
 using Battle.Controller.Commands;
 using UnityEngine;
 
-namespace Battle.Model.Skills.SkillEffects
+namespace Battle.Data.Skills.SkillEffects
 {
     [Serializable]
     public class DealDamageEffectData : SkillEffectData

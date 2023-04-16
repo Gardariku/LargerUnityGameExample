@@ -1,7 +1,8 @@
 using System;
+using Battle.Controller;
 using UnityEngine;
 
-namespace Battle.Model.Perks
+namespace Battle.Data.Perks
 {
     [CreateAssetMenu(fileName = "New Perk", menuName = "Build/Perks/Perk")]
     public class PerkData : ScriptableObject

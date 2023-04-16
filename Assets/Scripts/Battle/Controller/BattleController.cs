@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller.Commands;
+using Battle.Controller.GameplayLoops;
 using Battle.Data;
+using Battle.Data.Characters;
+using Battle.Data.Skills;
 using Common.Data_Structures;
-using Battle.Model;
-using Battle.Model.Characters;
-using Battle.Model.Skills;
 using UnityEngine;
 
 namespace Battle.Controller
@@ -168,9 +168,9 @@ namespace Battle.Controller
 
         public bool TryAttack(Character attacker, Character target)
         {
-            if (!(attacker.DiminishingStats.TryGetValue("STAMINA", out var stamina)
+            if (!(attacker.DiminishingStats.TryGetValue(Stats.Stamina, out var stamina)
                   && stamina.CurrentValue > 0)) return false;
-            if (!(attacker.CurrentStats.GetStatInt("RANGE") >= BattleModel.Field.CalculateDistance(attacker, target))) 
+            if (attacker.CurrentStats.GetStatInt(Stats.Range) < BattleModel.Field.CalculateDistance(attacker, target)) 
                 return false;
             
             AddLoop(ActionLoop.Start());
@@ -202,13 +202,18 @@ namespace Battle.Controller
         
         public void EndBattle()
         {
-            AddCommandMainFirst(new EndGameCommand());
+            ClearQueueBatch();
+            ClearQueueMain();
+            while (_gameLoops.Count > 1)
+                _gameLoops.Pop();
+            
+            Update();
         }
 
         public void CheatWin()
         {
             foreach (var enemy in BattleModel.Characters)
-                enemy.DiminishingStats["HEALTH"].CurrentValue = 0;
+                enemy.DiminishingStats[Stats.Health].CurrentValue = 0;
             EndBattle();
         }
 

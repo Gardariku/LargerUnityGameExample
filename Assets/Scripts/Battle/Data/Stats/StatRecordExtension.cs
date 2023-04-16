@@ -1,7 +1,7 @@
 using CleverCrow.Fluid.StatsSystem;
 using UnityEngine;
 
-namespace Battle.Model.Stats
+namespace Battle.Data.Stats
 {
     public static class StatRecordExtension
     {

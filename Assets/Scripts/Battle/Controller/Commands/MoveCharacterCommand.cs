@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Battle.Controller.Field;
-using Battle.Model;
 using UnityEngine;
 
 namespace Battle.Controller.Commands

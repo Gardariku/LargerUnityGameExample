@@ -1,6 +1,7 @@
 using System;
+using Battle.Controller;
 
-namespace Battle.Model.Perks.PerkTriggers
+namespace Battle.Data.Perks.PerkTriggers
 {
     [Serializable]
     public class OnRoundStartedPerkTriggerData : PerkTriggerData

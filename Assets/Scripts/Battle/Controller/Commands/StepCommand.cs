@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Battle.Model;
 using UnityEngine;
 
 namespace Battle.Controller.Commands
@@ -20,7 +19,8 @@ namespace Battle.Controller.Commands
         public void Execute(BattleController controller, BattleModel model)
         {
             controller.CharacterEvents.CharacterStepStarted?.Invoke(this);
-            Actor.Move(Finish);
+            Actor.Position = Finish;
+            Actor.Events.Moved?.Invoke(Finish);
             controller.CharacterEvents.CharacterStepFinished?.Invoke(this);
         }
     }

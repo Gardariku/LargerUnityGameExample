@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using Battle.Model;
-using Battle.Model.Skills;
+using Battle.Data.Skills;
 
 namespace Battle.Controller.Commands
 {

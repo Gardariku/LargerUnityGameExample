@@ -1,7 +1,7 @@
 using CleverCrow.Fluid.StatsSystem.StatsContainers;
 using UnityEngine;
 
-namespace Battle.Model.Items
+namespace Battle.Data.Items
 {
     [CreateAssetMenu(fileName = "New Artifact", menuName = "Build/Artifact")]
     public class ArtifactData : ScriptableObject
