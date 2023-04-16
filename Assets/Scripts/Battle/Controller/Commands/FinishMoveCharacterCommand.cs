@@ -13,7 +13,7 @@ namespace Battle.Controller.Commands
             Move = moveCommand;
         }
         
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             Debug.Log($"Moved character {Move.Actor.Data.Name} to {Move.Path[Move.Path.Length - 1]}");
             controller.CharacterEvents.CharacterMoveFinished?.Invoke(Move);

@@ -18,6 +18,7 @@ namespace World.Objects.Events
             UIRouter.OpenUrl($"info?header={_header}&message={_message}");
         }
 
+        public ReadNoteWorldEvent() { }
         public ReadNoteWorldEvent(string header, string message)
         {
             _header = header;

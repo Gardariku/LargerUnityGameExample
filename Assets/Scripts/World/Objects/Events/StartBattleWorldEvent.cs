@@ -12,6 +12,8 @@ namespace World.Objects.Events
     {
         [SerializeField] private List<AssetReference> _enemies;
         [SerializeField] private AssetReference _background;
+        
+        public StartBattleWorldEvent() { }
 
         public void Activate(Interaction context)
         {

@@ -18,7 +18,7 @@ namespace Battle.Controller.Commands
             NewValue = newValue;
         }
 
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             PreviousValue = Stat.CurrentValue;
             Stat.CurrentValue = NewValue;

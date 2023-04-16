@@ -18,7 +18,7 @@ namespace Battle.Controller.Commands
             DamageType = damageType;
         }
         
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             foreach (var victim in Victims)
                 controller.AddCommandBatchLast(new DealDamageCommand(Attacker, victim, Damage, DamageType));

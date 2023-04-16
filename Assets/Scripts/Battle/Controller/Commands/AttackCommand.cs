@@ -16,7 +16,7 @@ namespace Battle.Controller.Commands
             Target = target;
         }
         
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             controller.CharacterEvents.CharacterAttackStarted?.Invoke(this);
             

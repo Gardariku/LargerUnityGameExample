@@ -16,7 +16,7 @@ namespace Battle.Controller.Commands
             Finish = finish;
         }
         
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             controller.CharacterEvents.CharacterStepStarted?.Invoke(this);
             Actor.Position = Finish;

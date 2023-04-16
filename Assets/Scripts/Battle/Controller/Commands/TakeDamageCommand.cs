@@ -13,7 +13,7 @@ namespace Battle.Controller.Commands
             Damage = damage;
         }
 
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             var victimStats = Victim.DiminishingStats;
             if (victimStats.TryGetValue(Stats.Health, out var health))

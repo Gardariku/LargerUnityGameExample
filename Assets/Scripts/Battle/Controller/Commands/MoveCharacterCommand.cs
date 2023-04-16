@@ -17,7 +17,7 @@ namespace Battle.Controller.Commands
         }
         
         // This command may have to be split into sub-steps, but rn i don't feel like it
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             BattleField field = controller.BattleModel.Field;
             controller.CharacterEvents.CharacterMoveStarted?.Invoke(this);

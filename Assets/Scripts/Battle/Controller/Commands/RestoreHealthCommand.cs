@@ -17,7 +17,7 @@ namespace Battle.Controller.Commands
             Heal = heal;
         }
 
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             controller.CharacterEvents.CharacterHealStarted?.Invoke(this);
             //CalculateModifiers();

@@ -20,7 +20,7 @@ namespace Battle.Controller.Commands
         }
         
         // TODO: Add modifiers collection and damage result calculations
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             controller.CharacterEvents.CharacterDamageDealingStarted?.Invoke(this);
             //CalculateModifiers();

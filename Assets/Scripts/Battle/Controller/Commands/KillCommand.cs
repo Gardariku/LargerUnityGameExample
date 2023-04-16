@@ -12,7 +12,7 @@ namespace Battle.Controller.Commands
             Target = target;
         }
         
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             controller.CharacterEvents.CharacterDeathFinished?.Invoke(Target);
             Debug.Log($"{Target.Data.Name} character died.");

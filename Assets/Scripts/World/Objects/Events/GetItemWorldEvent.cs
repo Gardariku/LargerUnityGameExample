@@ -6,6 +6,8 @@ namespace World.Objects.Events
     [Serializable, AddTypeMenu("Get Items")]
     public class GetItemWorldEvent : IWorldEvent
     {
+        public GetItemWorldEvent() {}
+        
         public void Activate(Interaction context)
         {
             throw new System.NotImplementedException();

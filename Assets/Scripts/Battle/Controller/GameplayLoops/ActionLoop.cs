@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Battle.Controller.GameplayLoops
 {
@@ -8,6 +10,7 @@ namespace Battle.Controller.GameplayLoops
         
         public ActionLoop(BattleController controller) : base(controller)
         {
+            Model = new ActionModel();
         }
 
         public override IEnumerator Start()
@@ -20,8 +23,21 @@ namespace Battle.Controller.GameplayLoops
         }
     }
 
-    public struct ActionModel
+    public class ActionModel
     {
-        public int Data;
+        public Character Actor;
+        public Character MainTarget;
+        public List<Character> AffectedCharacters = new ();
+        public Vector2Int MainCell = new (-1, -1);
+        public List<Vector2Int> AffectedCells = new ();
+
+        public void Reset()
+        {
+            Actor = null;
+            MainTarget = null;
+            AffectedCharacters.Clear();
+            AffectedCells.Clear();
+            MainCell = new(-1, -1);
+        }
     }
 }

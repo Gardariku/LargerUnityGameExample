@@ -15,7 +15,7 @@ namespace Battle.Controller.Commands
             Heal = heal;
         }
 
-        public void Execute(BattleController controller, BattleModel model)
+        public void Execute(BattleController controller)
         {
             foreach (var recipient in Recipients)
                 controller.AddCommandBatchLast(new RestoreHealthCommand(Healer, recipient, Heal));

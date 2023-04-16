@@ -53,14 +53,14 @@ namespace Battle.Controller
         {
             if (_batchQueue.Count > 0)
             {
-                _batchQueue.RemoveFirst().Execute(this, BattleModel);
+                _batchQueue.RemoveFirst().Execute(this);
             }
             
             if (_locks > 0 || _isBusy) return;
             if (_mainQueue.Count > 0)
             {
                 _isBusy = true;
-                _mainQueue.RemoveFirst().Execute(this, BattleModel);
+                _mainQueue.RemoveFirst().Execute(this);
                 _isBusy = false;
             }
             else if (_gameLoops.Count > 0)
@@ -159,11 +159,15 @@ namespace Battle.Controller
             TurnLoop.EndTurn();
         }
 
-        // TODO: Move these methods to Character
-        public void UseSkill(Character user, SkillData skill, List<Character> targets)
+        // TODO: Add required resources check
+        public void TryUseSkill(Character user, SkillData skill)
+        {
+            skill.Selection.SelectTarget(this, user);
+        }
+        public void UseSkill(Character user, SkillData skill)
         {
             AddLoop(ActionLoop.Start());
-            _mainQueue.AddLast(new UseSkillCommand(skill, user, targets));
+            _mainQueue.AddLast(new UseSkillCommand(skill, user));
         }
 
         public bool TryAttack(Character attacker, Character target)
@@ -225,6 +229,7 @@ namespace Battle.Controller
             public Action RoundEnded;
             public Action<Character> CharacterTurnStarted;
             public Action<Character> CharacterTurnEnded;
+            public Action<ITargetSelector, Character> TargetSelectionStarted;
         }
 
         public class CharacterEventsContainer
