@@ -12,11 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e5f01441860e845833545fb0accc4f, type: 3}
   m_Name: Default Attack
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: autoattack
+  <Icon>k__BackingField: {fileID: 0}
+  <Name>k__BackingField: Attack
+  <Description>k__BackingField: 
+  <Selection>k__BackingField:
+    rid: 696140772208017428
   <Effects>k__BackingField:
-  - rid: 696140772208017409
-  UsageAnimation: 0
+  - rid: 696140772208017423
+  UsageAnimation: 4
   references:
     version: 2
     RefIds:
-    - rid: 696140772208017409
-      type: {class: ChooseTargetCommand, ns: Battle.Controller.Commands, asm: Battle}
+    - rid: 696140772208017423
+      type: {class: AttackEffect, ns: Battle.Data.Skills.SkillEffects, asm: Battle}
+      data:
+        <Damage>k__BackingField: 100
+        <DamageType>k__BackingField: 1
+    - rid: 696140772208017428
+      type: {class: CharacterSelector, ns: Battle.Controller.Selectors, asm: Battle}
+      data:
+        <Range>k__BackingField: 20
+        <TargetRequirements>k__BackingField: 2
+        <Area>k__BackingField: 0
+        <Magnitude>k__BackingField: 1
+        <Impact>k__BackingField: 2
+        <Quantity>k__BackingField: 1

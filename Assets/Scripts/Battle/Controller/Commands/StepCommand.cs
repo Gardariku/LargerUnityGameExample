@@ -20,7 +20,7 @@ namespace Battle.Controller.Commands
         {
             controller.CharacterEvents.CharacterStepStarted?.Invoke(this);
             Actor.Position = Finish;
-            Actor.Events.Moved?.Invoke(Finish);
+            Actor.Events.Moved?.Invoke(Start);
             controller.CharacterEvents.CharacterStepFinished?.Invoke(this);
         }
     }

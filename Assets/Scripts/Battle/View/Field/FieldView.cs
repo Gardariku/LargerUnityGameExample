@@ -1,5 +1,6 @@
+using System;
+using System.Collections.Generic;
 using Battle.Controller;
-using Battle.Controller.Commands;
 using Battle.Controller.Field;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -10,6 +11,7 @@ namespace Battle.View.Field
     public class FieldView : MonoBehaviour
     {
         private BattleView _battleView;
+        private GameObjectFactory _factory;
         private Camera _normalCamera;
         private Tilemap _tilemap;
         [Space] 
@@ -19,7 +21,7 @@ namespace Battle.View.Field
 
         private const float CellSize = 100f;
         private int _width;
-        private BattleField _field;
+        public BattleField Field { get; private set; }
         private Vector3 _mousePos;
         private Vector3Int _tilePos;
         private CellView _currentTile;
@@ -28,19 +30,25 @@ namespace Battle.View.Field
         
         public static Sprite[] CellSprites { get; private set; }
 
+        // left button = false, right button = true
+        public Action<CellView, bool> ClickedOnCell;
+        public Action<CellView> PointerEnteredCell;
+        public Action<CellView> PointerLeftCell;
+
         [Inject]
-        public void Init(Tilemap tilemap, CellView cellView, Camera mainCamera, BattleView battleView)
+        public void Init(Tilemap tilemap, CellView cellView, Camera mainCamera, BattleView battleView, GameObjectFactory factory)
         {
             _battleView = battleView;
             _normalCamera = mainCamera;
             _tilemap = tilemap;
             _cellPrefab = cellView;
+            _factory = factory;
         }
 
         public void Setup(BattleField field)
         {
             SetCells();
-            _field = field;
+            Field = field;
             Vector3 fieldPosition = _tilemap.transform.position;
             _width = field.Size.x;
             _tilemap.transform.position = new (fieldPosition.x - (_width / 2 - 0.5f) * CellSize, fieldPosition.y);
@@ -50,84 +58,64 @@ namespace Battle.View.Field
             {
                 for (int j = 0; j < field.Size.y; j++)
                 {
-                    _cells[i + j * _width] = Instantiate(_cellPrefab, _tilemap.transform);
+                    _cells[i + j * _width] = _factory.Create(_cellPrefab, _tilemap.transform).GetComponent<CellView>();
                     _cells[i + j * _width].transform.position = _tilemap.CellToWorld(new(i, j));
                     _cells[i + j * _width].gameObject.name = $"Cell ({i};{j})";
+                    _cells[i + j * _width].GridPos = new(i, j);
                 }
             }
-
-            _battleView.Controller.GameStateEvents.CharacterTurnStarted += OnCharacterTurnStarted;
-            _battleView.Controller.GameStateEvents.CharacterTurnEnded += OnCharacterTurnFinished;
-            _battleView.Controller.CharacterEvents.CharacterMoveStarted += OnCharacterMoveStarted;
-            _battleView.Controller.CharacterEvents.CharacterMoveFinished += OnCharacterMoveFinished;
         }
 
-        private void OnCharacterMoveStarted(MoveCharacterCommand moveCommand)
+        public void HighlightCells(IEnumerable<Vector2Int> positions)
         {
-            OnCharacterTurnFinished(moveCommand.Actor);
+            foreach (var pos in positions)
+            {
+                var cell = this[pos.x, pos.y];
+                if (cell.Content == null)
+                    cell.SetState(CellHighlight.Passable);
+                else 
+                    cell.SetState(cell.Content.Character.Team == Team.Player ? CellHighlight.Ally : CellHighlight.Enemy);
+            }
         }
-        private void OnCharacterMoveFinished(MoveCharacterCommand moveCommand)
+        public void StopHighlightingCells(IEnumerable<Vector2Int> positions)
         {
-            OnCharacterTurnStarted(moveCommand.Actor);
-        }
-
-        private void OnCharacterTurnStarted(Character character)
-        {
-            if (character.Team != Team.Player) return;
-
-            foreach (var pos in _field.GetPassableCells(character))
-                this[pos.x, pos.y].SetState(CellType.Passable);
-
-            _field.GetCharactersCells(out var allies, out var enemies);
-            foreach (var pos in allies)
-                this[pos.x, pos.y].SetState(CellType.Ally);
-            foreach (var pos in enemies)
-                this[pos.x, pos.y].SetState(CellType.Enemy);
-        }
-        private void OnCharacterTurnFinished(Character character)
-        {
-            if (character.Team != Team.Player) return;
-
-            foreach (var cell in _cells)
-                cell.SetState(CellType.Normal);
+            foreach (var pos in positions)
+            {
+                this[pos.x, pos.y].SetDefault();
+            }
         }
 
         // TODO: Move input to individual script and clean it
-        void Update()
-        {
-            if (_battleView.State != BattleState.PlayerTurn) return;
-            // _mousePos = _normalCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, -10f));
-            // _tilePos = _tilemap.WorldToCell(_mousePos);
-            // if (_tilePos.x < 0 || _tilePos.x >= _field.Size.x || _tilePos.y < 0 || _tilePos.y >= _field.Size.y)
-            //     return;
-            // var newTile = this[_tilePos.x, _tilePos.y];
-            
-            var hit = Physics2D.GetRayIntersection(new Ray(Input.mousePosition + Vector3.back * 10f, Vector3.forward), 30f);
-
-            if (hit.collider != null && hit.collider.TryGetComponent(out CellView newTile))
-            {
-                CheckClick();
-
-                if (_currentTile == newTile)
-                    return;
-
-                newTile.Select();
-                _currentTile?.Deselect();
-                _currentTile = newTile;
-                return;
-            }
-            _currentTile?.Deselect();
-        }
-
-        private void CheckClick()
-        {
-            if (Input.GetKeyUp(KeyCode.Mouse0) && _battleView.State == BattleState.PlayerTurn)
-            {
-                _mousePos = _normalCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, -10f));
-                _tilePos = _tilemap.WorldToCell(_mousePos);
-                _battleView.Controller.TryMove(_battleView.CurrentCharacter, new(_tilePos.x, _tilePos.y));
-            }
-        }
+        // void Update()
+        // {
+        //     if (_battleView.State != BattleState.PlayerTurn) return;
+        //
+        //     var hit = Physics2D.GetRayIntersection(
+        //         new Ray(Input.mousePosition + Vector3.back * 10f, Vector3.forward), 30f);
+        //     if (hit.collider != null && hit.collider.TryGetComponent(out CellView newTile))
+        //     {
+        //         CheckClick();
+        //
+        //         if (_currentTile == newTile)
+        //             return;
+        //
+        //         newTile.Select();
+        //         _currentTile?.Deselect();
+        //         _currentTile = newTile;
+        //         return;
+        //     }
+        //     _currentTile?.Deselect();
+        // }
+        //
+        // private void CheckClick()
+        // {
+        //     if (Input.GetKeyUp(KeyCode.Mouse0) && _battleView.State == BattleState.PlayerTurn)
+        //     {
+        //         _mousePos = _normalCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x + 50f, Input.mousePosition.y + 50f, -10f));
+        //         _tilePos = _tilemap.WorldToCell(_mousePos);
+        //         ClickedOnCell?.Invoke(new (_tilePos.x, _tilePos.y));
+        //     }
+        // }
 
         private void SetCells()
         {

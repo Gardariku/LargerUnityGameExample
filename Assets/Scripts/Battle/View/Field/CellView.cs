@@ -1,37 +1,66 @@
-using System;
 using UnityEngine;
+using Zenject;
 
 namespace Battle.View.Field
 {
+    // TODO: Add an abstraction layer in place of CharacterView (FieldObject or smth)
     [RequireComponent(typeof(SpriteRenderer))]
     public class CellView : MonoBehaviour
     {
+        [field: SerializeField] public CharacterView Content { get; set; }
+        [field: SerializeField] public Vector2Int GridPos { get; set; }
+        [SerializeField] private CellHighlight _highlight;
         [SerializeField] private SpriteRenderer _renderer;
-        [SerializeField] private CellType _type;
+        private FieldView _fieldView;
 
-        public void Select()
+        [Inject]
+        public void Init(FieldView fieldView)
         {
-            _renderer.sprite = FieldView.CellSprites[4];
+            _fieldView = fieldView;
         }
 
+        public void Select(CellHighlight type)
+        {
+            _renderer.sprite = FieldView.CellSprites[(int) type];
+        }
         public void Deselect()
         {
-            _renderer.sprite = FieldView.CellSprites[(int) _type];
+            _renderer.sprite = FieldView.CellSprites[(int) _highlight];
         }
         
-        public void SetState(CellType type)
+        public void SetState(CellHighlight highlight)
         {
-            _type = type;
-            _renderer.sprite = FieldView.CellSprites[(int) _type];
+            _highlight = highlight;
+            _renderer.sprite = FieldView.CellSprites[(int) _highlight];
+        }
+        public void SetDefault()
+        {
+            SetState(CellHighlight.Normal);
+        }
+
+        private void OnMouseOver()
+        {
+            _fieldView.PointerEnteredCell?.Invoke(this);
+        }
+        
+        private void OnMouseExit()
+        {
+            _fieldView.PointerLeftCell?.Invoke(this);
+        }
+
+        private void OnMouseDown()
+        {
+            _fieldView.ClickedOnCell?.Invoke(this, Input.GetKeyDown(KeyCode.Mouse1));
         }
     }
 
-    public enum CellType
+    public enum CellHighlight
     {
         Normal,
         Passable,
         Ally,
         Enemy,
-        Selected
+        Selected,
+        Faded
     }
 }

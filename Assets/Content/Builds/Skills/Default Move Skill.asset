@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e5f01441860e845833545fb0accc4f, type: 3}
+  m_Name: Default Move Skill
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: 
+  <Icon>k__BackingField: {fileID: 0}
+  <Name>k__BackingField: 
+  <Description>k__BackingField: 
+  <Selection>k__BackingField:
+    rid: 696140861505273856
+  <Effects>k__BackingField:
+  - rid: 696140861505273857
+  UsageAnimation: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 696140861505273856
+      type: {class: CellSelector, ns: Battle.Controller.Selectors, asm: Battle}
+      data:
+        <Range>k__BackingField: 4
+        <Target>k__BackingField: 1
+        <Area>k__BackingField: 0
+        <Magnitude>k__BackingField: 0
+        <Impact>k__BackingField: 0
+    - rid: 696140861505273857
+      type: {class: MoveCharacterEffect, ns: Battle.Data.Skills.SkillEffects, asm: Battle}

@@ -1,4 +1,5 @@
 using System;
+using Battle.Data.Skills;
 
 namespace Battle.Controller.Selectors
 {
@@ -7,8 +8,9 @@ namespace Battle.Controller.Selectors
     {
         public NoneSelector() {}
         
-        public void SelectTarget(BattleController controller, Character actor)
+        public void SelectTarget(BattleController controller, Character actor, SkillData skill)
         {
+            controller.GameStateEvents.TargetSelectionStarted?.Invoke(skill, actor);
         }
     }
 }

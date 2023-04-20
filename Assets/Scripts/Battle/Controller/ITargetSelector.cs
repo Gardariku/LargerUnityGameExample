@@ -1,3 +1,5 @@
+using Battle.Data.Skills;
+
 namespace Battle.Controller
 {
     // Target Selector holds information, needed to fill data about affected targets in ActionLoop
@@ -5,7 +7,7 @@ namespace Battle.Controller
     // so that other systems (player input / AI) can deal with target selection based on Selectors type and data.
     public interface ITargetSelector
     {
-        public void SelectTarget(BattleController controller, Character actor);
+        public void SelectTarget(BattleController controller, Character actor, SkillData skill);
     }
     
     public enum AreaOfEffect

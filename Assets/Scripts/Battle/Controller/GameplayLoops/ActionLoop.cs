@@ -15,29 +15,27 @@ namespace Battle.Controller.GameplayLoops
 
         public override IEnumerator Start()
         {
-            Model = new ActionModel();
             _controller.CharacterEvents.CharacterActionStarted?.Invoke();
             yield return null;
             
             _controller.CharacterEvents.CharacterActionFinished?.Invoke();
+            Model.Reset();
         }
     }
 
     public class ActionModel
     {
         public Character Actor;
-        public Character MainTarget;
+        public Character MainTarget => AffectedCharacters[0];
+        public Vector2Int MainCell => AffectedCells[0];
         public List<Character> AffectedCharacters = new ();
-        public Vector2Int MainCell = new (-1, -1);
         public List<Vector2Int> AffectedCells = new ();
 
         public void Reset()
         {
             Actor = null;
-            MainTarget = null;
             AffectedCharacters.Clear();
             AffectedCells.Clear();
-            MainCell = new(-1, -1);
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Battle.Launch
         public Camera MainCamera;
         public BattleView BattleView;
         public FieldView FieldView;
+        public SelectionView SelectionView;
+        public BattleInput Input;
         public CharacterView CharacterPrefab;
 
         public override void InstallBindings()
@@ -17,6 +19,8 @@ namespace Battle.Launch
             Container.BindInstance(MainCamera).AsCached();
             Container.BindInstance(BattleView).AsSingle();
             Container.BindInstance(FieldView).AsSingle();
+            Container.BindInstance(SelectionView).AsSingle();
+            Container.BindInstance(Input).AsSingle();
             Container.Bind<CharacterView>().FromComponentOn(CharacterPrefab.gameObject).AsCached();
         }
     }

@@ -6,7 +6,6 @@ using Battle.Data;
 using Battle.View.Field;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Zenject;
 
 namespace Battle.View
@@ -14,6 +13,7 @@ namespace Battle.View
     public class CharacterView : MonoBehaviour
     {
         [field: SerializeField] public Character Character { get; private set; }
+        [SerializeField] private HighlightType _curHighlight;
 
         public bool Direction => Character.Team == Team.Player;
         public bool ReachedHitPoint = false;
@@ -52,7 +52,7 @@ namespace Battle.View
             // Facing to the right direction
             if (!Direction)
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-            gameObject.AddComponent<PolygonCollider2D>();
+            //gameObject.AddComponent<PolygonCollider2D>();
             
             // Subscribe to character-specific events
             character.Events.Moved += OnCharacterMoved;
@@ -60,11 +60,16 @@ namespace Battle.View
             character.Events.DamageTaken += _ => StartCoroutine(PlayAnimation(BattleAnimation.Hurt));
         }
 
-        private void OnCharacterMoved(Vector2Int newPos)
+        private void OnCharacterMoved(Vector2Int oldPos)
         {
             _battleView.Controller.Lock();
-            transform.DOMove(_fieldView[newPos.x, newPos.y].transform.position, _moveTime)
-                .onComplete += () => _battleView.Controller.Unlock();
+            var newPos = Character.Position;
+            _battleView.FieldView[oldPos.x, oldPos.y].Content = null;
+            transform.DOMove(_fieldView[newPos.x, newPos.y].transform.position, _moveTime).onComplete += () =>
+            {
+                _battleView.FieldView[newPos.x, newPos.y].Content = this;
+                _battleView.Controller.Unlock();
+            };
         }
 
         private void OverrideAnimations()
@@ -74,51 +79,27 @@ namespace Battle.View
                 overController[clip.Name.ToString()] = clip.Animation;
             _animator.runtimeAnimatorController = overController;
         }
-
-        public void HighlightTurn()
+        
+        public void Highlight(HighlightType type)
         {
+            _curHighlight = type;
             shaderProperties.TryGetValue(ShaderProperty.Color, out int color);
             shaderProperties.TryGetValue(ShaderProperty.Thickness, out int thickness);
-            _outlineMaterial.SetColor(color, Character.Team == Team.Player ? Color.blue : Color.yellow);
-            _outlineMaterial.SetFloat(thickness, 1f);
-        }
-        public void HighlightTarget()
-        {
-            shaderProperties.TryGetValue(ShaderProperty.Color, out int color);
-            shaderProperties.TryGetValue(ShaderProperty.Thickness, out int thickness);
-            if (Character.Team == Team.Player)
-                _outlineMaterial.SetColor(color, Color.green);
-            else
-                _outlineMaterial.SetColor(color, Color.red);
+            _outlineMaterial.SetColor(color, GetHighlightColor(type));
             _outlineMaterial.SetFloat(thickness, 1f);
         }
 
         public void StopHighlight()
         {
-            shaderProperties.TryGetValue(ShaderProperty.Thickness, out int thickness);
-            _outlineMaterial.SetFloat(thickness, 0f);
-        }
-
-        private void OnMouseEnter()
-        {
-            if (_battleView.State == BattleState.PlayerTurn && Character.Team != Team.Player)
-                HighlightTarget();
-        }
-        private void OnMouseExit()
-        {
-            if (_battleView.State == BattleState.PlayerTurn && Character.Team != Team.Player)
-                StopHighlight();
-        }
-
-        private void OnMouseDown()
-        {
-            if (_battleView.IsPossibleToAttack(Character))
+            if (_battleView.CurrentCharacter != Character || _curHighlight == HighlightType.CurrentTurn)
             {
-                StopHighlight();
-                _battleView.PerformAttack(Character);
+                shaderProperties.TryGetValue(ShaderProperty.Thickness, out int thickness);
+                _outlineMaterial.SetFloat(thickness, 0f);
+                _curHighlight = HighlightType.None;
             }
+            else
+                Highlight(HighlightType.CurrentTurn);
         }
-
         
         // TODO: Try calling this via inspector reference (replace collection of clips with overriden controllers)
         // Supposed to be called from the animation events
@@ -140,6 +121,25 @@ namespace Battle.View
 
             _battleView.Controller.Unlock();
         }
+
+        private Color GetHighlightColor(HighlightType type) => type switch
+        {
+            HighlightType.None => Color.gray,
+            HighlightType.Info => Color.yellow,
+            HighlightType.CurrentTurn => Color.blue,
+            HighlightType.TargetAlly => Color.green,
+            HighlightType.TargetEnemy => Color.red,
+            _ => throw new ArgumentException()
+        };
+    }
+
+    public enum HighlightType
+    {
+        None,
+        CurrentTurn,
+        TargetEnemy,
+        TargetAlly,
+        Info
     }
 
     public enum ShaderProperty

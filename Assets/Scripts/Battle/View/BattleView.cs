@@ -2,15 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller;
-using Battle.Controller.Commands;
 using Battle.Data;
 using Battle.View.Field;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
+
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace Battle.View
 {
@@ -27,6 +23,10 @@ namespace Battle.View
         [SerializeField] private List<CharacterView> _characters;
         private CharacterView _characterPrefab;
         private GameObjectFactory _objectFactory;
+
+        public Action<CharacterView> ClickedOnCharacter;
+        public Action<CharacterView> PointerEnteredCharacter;
+        public Action<CharacterView> PointerLeftCharacter;
 
         [Inject]
         public void Init(BattleController battleController, FieldView fieldView, CharacterView characterView,
@@ -71,10 +71,12 @@ namespace Battle.View
         }
         private void InstantiateCharacter(Character character)
         {
-            Transform transform = FieldView[character.Position.x, character.Position.y].transform;
+            var pos = character.Position;
+            Transform transform = FieldView[pos.x, pos.y].transform;
             CharacterView characterView = _objectFactory.Create(_characterPrefab, transform).GetComponent<CharacterView>();
             characterView.Load(character, this);
             _characters.Add(characterView);
+            FieldView[pos.x, pos.y].Content = characterView;
         }
         
         private void OnCharacterAnimationStarted()
@@ -85,7 +87,7 @@ namespace Battle.View
         private void OnCharacterAnimationFinished()
         {
             State = _prevState;
-            GetCharacterView(CurrentCharacter).HighlightTurn();
+            GetCharacterView(CurrentCharacter).Highlight(HighlightType.CurrentTurn);
         }
 
         private void OnCharacterDied(Character character)
@@ -101,17 +103,16 @@ namespace Battle.View
         }
         private void OnRoundStarted(int round)
         {
-            Debug.Assert(State == BattleState.StartingBattle || State == BattleState.FinishingRound);
+            Debug.Assert(State is BattleState.StartingBattle or BattleState.FinishingRound);
             State = BattleState.StartingRound;
             Debug.Log("Round started");
         }
         private void OnCharacterTurnStarted(Character character)
         {
-            Debug.Assert(State == BattleState.StartingRound || 
-                         State == BattleState.PlayerTurn || State == BattleState.EnemyTurn);
+            Debug.Assert(State is BattleState.StartingRound or BattleState.PlayerTurn or BattleState.EnemyTurn);
             State = character.Team == Team.Player ? BattleState.PlayerTurn : BattleState.EnemyTurn;
             CurrentCharacter = character;
-            GetCharacterView(CurrentCharacter).HighlightTurn();
+            GetCharacterView(CurrentCharacter).Highlight(HighlightType.CurrentTurn);
 
             if (State == BattleState.EnemyTurn)
                 StartCoroutine(ShowEnemyTurn());
@@ -133,7 +134,7 @@ namespace Battle.View
         }
         private void OnRoundFinished()
         {
-            Debug.Assert(State == BattleState.PlayerTurn || State == BattleState.EnemyTurn);
+            Debug.Assert(State is BattleState.PlayerTurn or BattleState.EnemyTurn);
             State = BattleState.FinishingRound;
             Debug.Log("Round finished");
         }
@@ -148,20 +149,6 @@ namespace Battle.View
         public void EndTurn()
         {
             Controller.EndTurn();
-        }
-
-        public void PerformAttack(Character target)
-        {
-            Controller.TryAttack(CurrentCharacter, target);
-        }
-
-        public bool IsPossibleToAttack(Character target)
-        {
-            if (State != BattleState.PlayerTurn || target.Team == Team.Player)
-                return false;
-            if (!CurrentCharacter.DiminishingStats.TryGetValue("STAMINA", out var stamina))
-                return false;
-            return stamina.CurrentValue > 0;
         }
 
         private CharacterView GetCharacterView(Character character)
@@ -181,12 +168,13 @@ namespace Battle.View
     public enum BattleState
     {
         Pause = 0,
-        StartingBattle = 1,
-        StartingRound = 2,
-        PlayerTurn = 3,
-        EnemyTurn = 4,
-        Animation = 5,
-        FinishingRound = 6,
-        FinishingBattle = 7
+        StartingBattle,
+        StartingRound,
+        PlayerTurn,
+        EnemyTurn,
+        Animation,
+        TargetSelection,
+        FinishingRound,
+        FinishingBattle
     }
 }

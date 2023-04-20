@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Battle.Controller.Commands;
@@ -104,6 +105,34 @@ namespace Battle.Controller.Field
                 else 
                     enemies.Add(cell.Position);
             }
+        }
+
+        public HashSet<Vector2Int> GetCellsAtArea(AreaOfEffect area, int radius, Vector2Int center)
+        {
+            var cells = new HashSet<Vector2Int>();
+            switch (area)
+            {
+                case AreaOfEffect.Single:
+                    cells.Add(center);
+                    break;
+                case AreaOfEffect.Manhattan:
+                    break;
+                case AreaOfEffect.Chebyshev:
+                    for (int i = Math.Max(0, center.x - radius); i <= Math.Min(Size.x - 1, center.x + radius); i++)
+                        for (int j = Math.Max(0, center.y - radius); j <= Math.Min(Size.y- 1, center.y + radius); j++)
+                            cells.Add(new (i, j));
+                    break;
+                case AreaOfEffect.Line:
+                    break;
+                case AreaOfEffect.Cross:
+                    break;
+                case AreaOfEffect.Cone:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(area), area, null);
+            }
+
+            return cells;
         }
     }
 }

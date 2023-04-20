@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller.Commands;
 using Battle.Controller.GameplayLoops;
-using Battle.Data;
 using Battle.Data.Characters;
 using Battle.Data.Skills;
 using Common.Data_Structures;
@@ -162,42 +161,14 @@ namespace Battle.Controller
         // TODO: Add required resources check
         public void TryUseSkill(Character user, SkillData skill)
         {
-            skill.Selection.SelectTarget(this, user);
+            skill.Selection.SelectTarget(this, user, skill);
         }
         public void UseSkill(Character user, SkillData skill)
         {
             AddLoop(ActionLoop.Start());
             _mainQueue.AddLast(new UseSkillCommand(skill, user));
         }
-
-        public bool TryAttack(Character attacker, Character target)
-        {
-            if (!(attacker.DiminishingStats.TryGetValue(Stats.Stamina, out var stamina)
-                  && stamina.CurrentValue > 0)) return false;
-            if (attacker.CurrentStats.GetStatInt(Stats.Range) < BattleModel.Field.CalculateDistance(attacker, target)) 
-                return false;
-            
-            AddLoop(ActionLoop.Start());
-            AddCommandMainFirst(new AttackCommand(attacker, target));
-            AddCommandMainLast(new ChangeDimStatCommand(attacker, stamina, stamina.CurrentValue - 1));
-            return true;
-        }
-
-        public bool TryMove(Character character, Vector2Int targetPosition)
-        {
-            AddLoop(ActionLoop.Start());
-            Debug.Log($"Tried to move character {character.Data.Name} to {targetPosition}");
-            Vector2Int[] path = BattleModel.Field.FindPath(character.Position, targetPosition);
-            if (!(character.DiminishingStats.TryGetValue("STAMINA", out var stamina) && stamina.CurrentValue > 0 
-                    && character.DiminishingStats.TryGetValue("SPEED", out var speed) 
-                    && speed.CurrentValue + 0.05f > BattleModel.Field.CalculatePathLength(path)) || path.Length == 0)
-                return false;
-            
-            AddCommandMainFirst(new ChangeDimStatCommand(character, stamina, stamina.CurrentValue - 1));
-            AddCommandMainLast(new MoveCharacterCommand(character, path));
-            return true;
-        }
-
+        
         public void CheckWinCondition(Character character)
         {
             if (BattleModel.Winner != Team.None)
@@ -229,7 +200,7 @@ namespace Battle.Controller
             public Action RoundEnded;
             public Action<Character> CharacterTurnStarted;
             public Action<Character> CharacterTurnEnded;
-            public Action<ITargetSelector, Character> TargetSelectionStarted;
+            public Action<SkillData, Character> TargetSelectionStarted;
         }
 
         public class CharacterEventsContainer
