@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
+using VContainer;
 using World.Characters;
-using Zenject;
 
 namespace World.View
 {

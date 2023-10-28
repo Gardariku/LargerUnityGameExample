@@ -4,18 +4,17 @@ using Battle.Controller;
 using Battle.Controller.Field;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Zenject;
+using VContainer;
 
 namespace Battle.View.Field
 {
     public class FieldView : MonoBehaviour
     {
-        private BattleView _battleView;
         private GameObjectFactory _factory;
         private Camera _normalCamera;
         private Tilemap _tilemap;
         [Space] 
-        private CellView _cellPrefab;
+        [SerializeField] private CellView _cellPrefab;
         [SerializeField] private CellView[] _cells;
         [SerializeField] private Sprite[] _cellSprites;
 
@@ -36,12 +35,10 @@ namespace Battle.View.Field
         public Action<CellView> PointerLeftCell;
 
         [Inject]
-        public void Init(Tilemap tilemap, CellView cellView, Camera mainCamera, BattleView battleView, GameObjectFactory factory)
+        public void Init(Tilemap tilemap, Camera mainCamera, GameObjectFactory factory)
         {
-            _battleView = battleView;
             _normalCamera = mainCamera;
             _tilemap = tilemap;
-            _cellPrefab = cellView;
             _factory = factory;
         }
 

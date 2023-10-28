@@ -202,7 +202,6 @@ namespace Battle.Controller
             public Action<Character> CharacterTurnEnded;
             public Action<SkillData, Character> TargetSelectionStarted;
         }
-
         public class CharacterEventsContainer
         {
             public Action CharacterActionStarted;
@@ -225,7 +224,20 @@ namespace Battle.Controller
             public Action<RestoreHealthCommand> CharacterHealFinished;
             public Action<ChangeDimStatCommand> CharacterDiminishingStatChanged;
         }
+        
+        // private static int GetStatValue(BattleStatistics stat) => stat switch
+        // {
+        //     BattleStatistics.Variable => MoveExecutor.Stats.Variable,
+        //     BattleStatistics.LastDrawnCardType => (int)MoveExecutor.Stats.LastDrawnCard.Data.Type,
+        //     BattleStatistics.LastDrawnCardCost => MoveExecutor.Stats.LastDrawnCard != null ?
+        //         MoveExecutor.Stats.LastDrawnCard.Data.Cost : 0,
+        //     _ => throw new NotImplementedException()
+        // };
     }
 
-
+    public enum BattleStatistics
+    {
+        LocalVariable,
+        
+    }
 }

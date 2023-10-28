@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
+using VContainer;
 using World.Data;
 using World.Objects.Events;
-using Zenject;
 
 namespace World.Objects.Interactions
 {

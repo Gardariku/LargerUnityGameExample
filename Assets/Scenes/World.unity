@@ -497,51 +497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cef0c6f980a4799a483c29f32105b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &777327129
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 777327130}
-  - component: {fileID: 777327131}
-  m_Layer: 0
-  m_Name: Player Character Installer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &777327130
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777327129}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1071660299}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &777327131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777327129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15cebe8e61ea492899d8a7785c932197, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerObject: {fileID: 1591546806}
 --- !u!1 &886924309
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,10 +619,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 617e0138ae3d4c59bdee3bb4f62b2ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
   InteractionCatalog: {fileID: 139040567}
-  ObjectFactory: {fileID: 361021210}
   Serializer: {fileID: 886924311}
   Generator: {fileID: 1780493144}
+  Launcher: {fileID: 1099760457}
+  CameraMovement: {fileID: 1906255421}
+  Map: {fileID: 1780493145}
+  Tilemap: {fileID: 1988883983}
+  ObjectFactory: {fileID: 361021210}
+  Camera: {fileID: 1906255418}
+  PlayerObject: {fileID: 1591546806}
+  Input: {fileID: 2124938728}
+  Movement: {fileID: 1591546798}
 --- !u!1 &1071660297
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,28 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 935612647}
-  - {fileID: 1834813160}
-  - {fileID: 777327131}
-  _installerPrefabs: []
-  _autoRun: 1
-  OnPreInstall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPostInstall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreResolve:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPostResolve:
-    m_PersistentCalls:
-      m_Calls: []
-  _parentNewObjectsUnderSceneContext: 0
-  _contractNames: []
-  _parentContractNames: []
 --- !u!4 &1071660299
 Transform:
   m_ObjectHideFlags: 0
@@ -732,8 +677,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 935612646}
-  - {fileID: 1834813159}
-  - {fileID: 777327130}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1049,53 +992,6 @@ MonoBehaviour:
   _cellsTransform: {fileID: 1766538276}
   _obstaclesTransform: {fileID: 1348043401}
   _objectsTransform: {fileID: 481764602}
---- !u!1 &1834813158
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1834813159}
-  - component: {fileID: 1834813160}
-  m_Layer: 0
-  m_Name: World Map Initializer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1834813159
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834813158}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1071660299}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1834813160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834813158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6720608e1e6b4c0a915ae9d55fccad5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Map: {fileID: 1780493145}
-  Tilemap: {fileID: 1988883983}
-  Camera: {fileID: 1906255418}
 --- !u!1 &1906255416
 GameObject:
   m_ObjectHideFlags: 0

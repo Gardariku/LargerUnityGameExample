@@ -1,6 +1,6 @@
 using Common.Setup;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 namespace World.Objects.Interactions
 {

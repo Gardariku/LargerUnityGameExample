@@ -6,7 +6,7 @@ using Battle.Data;
 using Battle.View.Field;
 using DG.Tweening;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 namespace Battle.View
 {

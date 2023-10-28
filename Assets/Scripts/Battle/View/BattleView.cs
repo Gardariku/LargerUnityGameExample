@@ -5,8 +5,7 @@ using Battle.Controller;
 using Battle.Data;
 using Battle.View.Field;
 using UnityEngine;
-
-using Zenject;
+using VContainer;
 
 namespace Battle.View
 {
@@ -21,7 +20,7 @@ namespace Battle.View
         public BattleController Controller { get; private set; }
         public FieldView FieldView { get; private set; }
         [SerializeField] private List<CharacterView> _characters;
-        private CharacterView _characterPrefab;
+        [SerializeField] private CharacterView _characterPrefab;
         private GameObjectFactory _objectFactory;
 
         public Action<CharacterView> ClickedOnCharacter;
@@ -29,12 +28,11 @@ namespace Battle.View
         public Action<CharacterView> PointerLeftCharacter;
 
         [Inject]
-        public void Init(BattleController battleController, FieldView fieldView, CharacterView characterView,
+        public void Init(BattleController battleController, FieldView fieldView, 
             GameObjectFactory objectFactory)
         {
             Controller = battleController;
             FieldView = fieldView;
-            _characterPrefab = characterView;
             _objectFactory = objectFactory;
         }
         

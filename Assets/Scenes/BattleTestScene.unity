@@ -612,6 +612,7 @@ MonoBehaviour:
     Id: 0
     Skills: []
   _characters: []
+  _characterPrefab: {fileID: 3302689800298552687, guid: 159c93ea21df372488ba165d87bc648e, type: 3}
 --- !u!4 &197809708
 Transform:
   m_ObjectHideFlags: 0
@@ -984,7 +985,6 @@ GameObject:
   m_Component:
   - component: {fileID: 328226135}
   - component: {fileID: 328226134}
-  - component: {fileID: 328226136}
   m_Layer: 0
   m_Name: Battle Setup
   m_TagString: Untagged
@@ -1019,20 +1019,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &328226136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328226133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83f136f30a634be49a5f8beba4328be9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerTroops: []
-  _enemyTroops: []
 --- !u!1 &517908469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,12 +1063,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bf31f7bcda4b699c793a23c9c08d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: Battle.Launch.BattleCoreScope
+  autoRun: 1
+  autoInjectGameObjects:
+  - {fileID: 127535658}
   MainCamera: {fileID: 238822597}
   BattleView: {fileID: 197809707}
   FieldView: {fileID: 799295586}
   SelectionView: {fileID: 197809709}
   Input: {fileID: 924325772}
-  CharacterPrefab: {fileID: 3302689800298552687, guid: 159c93ea21df372488ba165d87bc648e, type: 3}
+  Tilemap: {fileID: 1344106195}
 --- !u!1 &799295584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,8 +1085,6 @@ GameObject:
   - component: {fileID: 799295585}
   - component: {fileID: 799295587}
   - component: {fileID: 799295586}
-  - component: {fileID: 799295589}
-  - component: {fileID: 799295588}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -1131,6 +1120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471aef221bf046dda5f41cffc02aeb95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cellPrefab: {fileID: 8768186075302344671, guid: 97ee52dca59e96a45bb8d1c84733edbb, type: 3}
   _cells: []
   _cellSprites:
   - {fileID: 21300000, guid: ebe3ff3473bb54d4493bfe5b1d816b5d, type: 3}
@@ -1151,38 +1141,6 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &799295588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 799295584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac15f66ce6ef4cbb817b50de8e7c638d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tilemap: {fileID: 1344106195}
-  CellPrefab: {fileID: 8768186075302344671, guid: 97ee52dca59e96a45bb8d1c84733edbb, type: 3}
---- !u!114 &799295589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 799295584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 799295588}
-  _installerPrefabs: []
-  _autoRun: 1
-  _kernel: {fileID: 0}
 --- !u!1 &912948474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1404,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1041276463}
-  - component: {fileID: 1041276462}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1454,39 +1411,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1041276462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041276461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 1493475075}
-  - {fileID: 517908471}
-  _installerPrefabs: []
-  _autoRun: 1
-  OnPreInstall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPostInstall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPreResolve:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPostResolve:
-    m_PersistentCalls:
-      m_Calls: []
-  _parentNewObjectsUnderSceneContext: 0
-  _contractNames: []
-  _parentContractNames: []
 --- !u!4 &1041276463
 Transform:
   m_ObjectHideFlags: 0
@@ -2535,6 +2459,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4dda433fd1e4839b36d7d6f55a8ad91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
   BattleController: {fileID: 326915427}
 --- !u!1 &1574324060
 GameObject:

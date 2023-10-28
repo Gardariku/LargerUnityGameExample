@@ -1,7 +1,7 @@
 using System;
 using Common.Setup;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 namespace World.Launch
 {

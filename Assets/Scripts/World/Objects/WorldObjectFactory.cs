@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 using World.Data;
 using World.Objects.Events;
 using World.Objects.Interactions;
-using Zenject;
 using Random = UnityEngine.Random;
 
 namespace World.Objects
@@ -16,10 +17,10 @@ namespace World.Objects
         [SerializeField] private GameObject[] _obstacles;
         [SerializeField] private GameObject[] _borders;
         private WorldSerializer _serializer;
-        private DiContainer _container;
+        private IObjectResolver _container;
 
         [Inject]
-        public void Init(DiContainer container, WorldSerializer serializer)
+        public void Init(IObjectResolver container, WorldSerializer serializer)
         {
             _container = container;
             _serializer = serializer;
@@ -31,7 +32,7 @@ namespace World.Objects
             foreach (var obj in _interactableObjects)
             {
                 if (obj == subtype)
-                    interaction = _container.InstantiatePrefab(obj.Prefab).GetComponent<Interaction>();
+                    interaction = _container.Instantiate(obj.Prefab).GetComponent<Interaction>();
             }
 
             if (interaction == null)
@@ -43,8 +44,9 @@ namespace World.Objects
         public Interaction RecoverInteractableObject(Interaction.InteractableObjectState state)
         {
             Type interactionType = _serializer.InteractionTypeById[state.InteractionType];
-            var obj = _container.InstantiatePrefab(_defaultWorldObject);
-            var intObj = _container.InstantiateComponent(interactionType, obj) as Interaction;
+            var obj = _container.Instantiate(_defaultWorldObject);
+            var intObj = obj.AddComponent(interactionType) as Interaction;
+            _container.Inject(intObj);
             intObj.WorldObject.Init(state.WObject);
             
             IWorldEvent[] events = new IWorldEvent[state.Events.Length];

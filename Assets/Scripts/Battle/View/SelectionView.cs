@@ -4,7 +4,7 @@ using Battle.Controller.Selectors;
 using Battle.Data.Skills;
 using Battle.View.Field;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 namespace Battle.View
 {

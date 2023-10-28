@@ -32,4 +32,14 @@ namespace Battle.Data.Skills
                 effect.Apply(controller, data);
         }
     }
+    
+    public enum StatComparison
+    {
+        Equal,
+        Unequal,
+        Greater,
+        GreaterOrEqual,
+        Less,
+        LessOrEqual,
+    }
 }

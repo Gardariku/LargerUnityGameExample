@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using Common.Setup;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using VContainer;
 using World.Data;
-using World.Objects;
 using World.Objects.Events;
 using World.Objects.Interactions;
-using Zenject;
-using InteractableObjectState = World.Objects.Interactions.Interaction.InteractableObjectState;
 
 namespace World
 {
@@ -88,7 +85,6 @@ namespace World
             for (int i = 0; i < _interactionTypeNames.Length; i++)
                 InteractionIdByType.Add(Type.GetType($"World.Objects.Interactions.{_interactionTypeNames[i]}"), i);
             InteractionTypeById = InteractionIdByType.ToDictionary(x => x.Value, x => x.Key);
-
         }
 
         private void Start()
@@ -119,16 +115,16 @@ namespace World
             public Vector2IntS MapSize;
             public Vector2IntS PlayerPosition;
             public Vector2IntS[] Obstacles;
-            public InteractableObjectState[] InteractableObjects;
+            public Interaction.InteractableObjectState[] InteractableObjects;
 
             public WorldState(WorldMap map, WorldSerializer serializer)
             {
                 MapSize = new Vector2IntS(map.Height, map.Width);
                 PlayerPosition = new Vector2IntS(map.PlayerCharacter.Cell.GridPosition);
                 
-                InteractableObjects = new InteractableObjectState[map.InteractableObjects.Count];
+                InteractableObjects = new Interaction.InteractableObjectState[map.InteractableObjects.Count];
                 for (int i = 0; i < map.InteractableObjects.Count; i++)
-                    InteractableObjects[i] = new InteractableObjectState(map.InteractableObjects[i], serializer);
+                    InteractableObjects[i] = new Interaction.InteractableObjectState(map.InteractableObjects[i], serializer);
 
                 Obstacles = new Vector2IntS[map.Obstacles.Count];
                 for (int i = 0; i < map.Obstacles.Count; i++)

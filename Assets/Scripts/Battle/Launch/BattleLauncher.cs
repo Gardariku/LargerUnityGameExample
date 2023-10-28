@@ -8,11 +8,12 @@ using Common.Setup;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 namespace Battle.Launch
 {
-    public class BattleLauncher : MonoBehaviour
+    public class BattleLauncher : IStartable
     {
         private SceneLoader _sceneLoader;
         private BattlePayload _battlePayload;
@@ -39,7 +40,7 @@ namespace Battle.Launch
             _view = battleView;
         }
 
-        private async void Start()
+        public async void Start()
         {
             _playerHandle = Addressables.LoadAssetsAsync<FighterData>(_battlePayload.PlayerCharacters, null, Addressables.MergeMode.Union);
             _enemyHandle = Addressables.LoadAssetsAsync<FighterData>(_battlePayload.EnemyCharacters, null, Addressables.MergeMode.Union);

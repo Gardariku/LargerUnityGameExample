@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
+using VContainer;
 using World.Objects;
-using Zenject;
 
 namespace World.Characters
 {

@@ -1,23 +1,24 @@
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 namespace Battle.View
 {
     // Don't see the need for an actual factory, just use this for newly instantiated gameobjects DI
     public class GameObjectFactory
     {
-        [Inject] private DiContainer _container;
+        [Inject] private IObjectResolver _container;
         
         public GameObject Create(MonoBehaviour monobeh, Transform parent = null)
         {
-            var gameObject = _container.InstantiatePrefab(monobeh, parent);
+            var component = _container.Instantiate(monobeh, parent);
 
-            return gameObject;
+            return component.gameObject;
         }
         
         public GameObject Create(GameObject prefab, Transform parent = null)
         {
-            var gameObject = _container.InstantiatePrefab(prefab, parent);
+            var gameObject = _container.Instantiate(prefab, parent);
 
             return gameObject;
         }

@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
+using VContainer;
 using World.Characters;
-using Zenject;
 
 namespace World.View
 {
@@ -26,9 +25,8 @@ namespace World.View
         private float targetZoom;
 
         [Inject]
-        public void Init(Camera mainCamera, WorldMap worldMap, Player player)
+        public void Init(WorldMap worldMap, Player player)
         {
-            _camera = mainCamera;
             _worldMap = worldMap;
             _player = player.Visual;
         }

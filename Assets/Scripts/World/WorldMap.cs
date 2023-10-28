@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using VContainer;
 using World.Objects;
 using World.Objects.Interactions;
-using Zenject;
 
 namespace World
 {

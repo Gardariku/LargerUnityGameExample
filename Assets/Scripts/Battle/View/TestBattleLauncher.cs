@@ -1,7 +1,7 @@
 using Battle.Controller;
 using Battle.Data.Characters;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 namespace Battle.View
 {
