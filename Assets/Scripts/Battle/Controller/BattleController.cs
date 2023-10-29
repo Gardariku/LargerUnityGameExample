@@ -5,7 +5,7 @@ using Battle.Controller.Commands;
 using Battle.Controller.GameplayLoops;
 using Battle.Data.Characters;
 using Battle.Data.Skills;
-using Common.Data_Structures;
+using Common.DataStructures;
 using UnityEngine;
 
 namespace Battle.Controller
@@ -28,8 +28,7 @@ namespace Battle.Controller
         // TODO: Work this around
         public bool DontAcceptSubcommands;
 
-        public GameStateEventsContainer GameStateEvents = new GameStateEventsContainer();
-        public CharacterEventsContainer CharacterEvents = new CharacterEventsContainer();
+        public EventBus EventBus { get; private set; } = new();
 
         public BattleLoop BattleLoop { get; private set; }
         public RoundLoop RoundLoop { get; private set; }

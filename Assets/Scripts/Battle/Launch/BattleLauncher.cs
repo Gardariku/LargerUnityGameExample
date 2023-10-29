@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Battle.Controller;
+using Battle.Controller.Events.GameLoop;
 using Battle.Data.Characters;
 using Battle.View;
+using Common.DataStructures;
 using Common.Setup;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,7 +15,7 @@ using VContainer.Unity;
 
 namespace Battle.Launch
 {
-    public class BattleLauncher : IStartable
+    public class BattleLauncher : IStartable, IBattleFinishedHandler
     {
         private SceneLoader _sceneLoader;
         private BattlePayload _battlePayload;
@@ -53,10 +55,10 @@ namespace Battle.Launch
             _controller.Setup(_playerTroops, _enemyTroops);
             _view.Load();
 
-            _controller.GameStateEvents.GameEnded += CloseGame;
+            _controller.EventBus.Subscribe(this);
         }
 
-        private void CloseGame(Team winner)
+        public void OnBattleFinished(Team winner)
         {
             _worldPayload.ReturnCode = (int) winner - 1;
             _worldPayload.LaunchType = LaunchType.Load;

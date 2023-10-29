@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Battle.Controller.Events.Character;
 using Battle.Controller.Field;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace Battle.Controller.Commands
         public void Execute(BattleController controller)
         {
             BattleField field = controller.BattleModel.Field;
-            controller.CharacterEvents.CharacterMoveStarted?.Invoke(this);
+            controller.EventBus.RaiseEvent<IMoveStartedHandler>(handler => handler.OnMoveStarted(this));
             int index = -1;
             
             foreach (var cell in Path)

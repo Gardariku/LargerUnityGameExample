@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Battle.Controller.Commands;
+using Battle.Controller.Events.Character;
 using UnityEngine;
 
 namespace Battle.Controller.Field
 {
-    public class BattleField
+    public class BattleField : IStepFinishedHandler
     {
         public Vector2Int Size => new (Cells.GetLength(0), Cells.GetLength(1));
         public IFieldObject[,] Cells { get; }
@@ -33,10 +34,10 @@ namespace Battle.Controller.Field
 
         private void SubscribeOnEvents(BattleController controller)
         {
-            controller.CharacterEvents.CharacterStepFinished += OnCharacterStepFinished;
+            controller.EventBus.Subscribe(this);
         }
 
-        private void OnCharacterStepFinished(StepCommand step)
+        public void OnStepFinished(StepCommand step)
         {
             Cells[step.Start.x, step.Start.y] = null;
             Cells[step.Finish.x, step.Finish.y] = step.Actor;

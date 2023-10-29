@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller;
+using Battle.Controller.Events.Character;
+using Battle.Controller.Events.GameLoop;
 using Battle.Data;
 using Battle.View.Field;
 using UnityEngine;
@@ -9,7 +11,14 @@ using VContainer;
 
 namespace Battle.View
 {
-    public class BattleView : MonoBehaviour
+    public interface IBattleLoopHandler : IRoundStartedHandler, IRoundFinishedHandler, 
+        IBattleStartedHandler, IBattleFinishedHandler, IDeathHandler, ITurnStartedHandler, ITurnFinishedHandler
+    {
+        public void OnCharacterAnimationStarted();
+        public void OnCharacterAnimationFinished();
+    }
+    
+    public class BattleView : MonoBehaviour, IBattleLoopHandler
     {
         // [field: SerializeField] for auto properties
         public BattleState State 
@@ -38,26 +47,9 @@ namespace Battle.View
         
         public void Load()
         {
-            SubscribeOnGameEvents();
-            SubscribeOnCharacterEvents();
+            Controller.EventBus.Subscribe(this);
             FieldView.Setup(Controller.BattleModel.Field);
             LoadCharacters(Controller.BattleModel.Characters);
-        }
-        
-        private void SubscribeOnGameEvents()
-        {
-            Controller.GameStateEvents.GameStarted += OnBattleStarted;
-            Controller.GameStateEvents.RoundStarted += OnRoundStarted;
-            Controller.GameStateEvents.CharacterTurnStarted += OnCharacterTurnStarted;
-            Controller.GameStateEvents.CharacterTurnEnded += OnCharacterTurnFinished;
-            Controller.GameStateEvents.RoundEnded += OnRoundFinished;
-            Controller.GameStateEvents.GameEnded += OnBattleFinished;
-        }
-        private void SubscribeOnCharacterEvents()
-        {
-            Controller.CharacterEvents.CharacterActionStarted += OnCharacterAnimationStarted;
-            Controller.CharacterEvents.CharacterActionFinished += OnCharacterAnimationFinished;
-            Controller.CharacterEvents.CharacterDeathFinished += OnCharacterDied;
         }
 
         private void LoadCharacters(List<Character> characters)
@@ -77,35 +69,35 @@ namespace Battle.View
             FieldView[pos.x, pos.y].Content = characterView;
         }
         
-        private void OnCharacterAnimationStarted()
+        public void OnCharacterAnimationStarted()
         {
             _prevState = State;
             State = BattleState.Animation;
         }
-        private void OnCharacterAnimationFinished()
+        public void OnCharacterAnimationFinished()
         {
             State = _prevState;
             GetCharacterView(CurrentCharacter).Highlight(HighlightType.CurrentTurn);
         }
 
-        private void OnCharacterDied(Character character)
+        public void OnDeath(Character character)
         {
             StartCoroutine(GetCharacterView(character).PlayAnimation(BattleAnimation.Death));
         }
 
-        private void OnBattleStarted()
+        public void OnBattleStarted()
         {
             Debug.Assert(State == BattleState.Pause);
             State = BattleState.StartingBattle;
             Debug.Log("Battle started");
         }
-        private void OnRoundStarted(int round)
+        public void OnRoundStarted(int round)
         {
             Debug.Assert(State is BattleState.StartingBattle or BattleState.FinishingRound);
             State = BattleState.StartingRound;
             Debug.Log("Round started");
         }
-        private void OnCharacterTurnStarted(Character character)
+        public void OnTurnStarted(Character character)
         {
             Debug.Assert(State is BattleState.StartingRound or BattleState.PlayerTurn or BattleState.EnemyTurn);
             State = character.Team == Team.Player ? BattleState.PlayerTurn : BattleState.EnemyTurn;
@@ -124,19 +116,19 @@ namespace Battle.View
             Controller.Unlock();
         }
         
-        private void OnCharacterTurnFinished(Character character)
+        public void OnTurnFinished(Character character)
         {
             GetCharacterView(CurrentCharacter).StopHighlight();
             CurrentCharacter = null;
             Debug.Log(character.Data.Name + " with id " + character.Id + " finished his turn");
         }
-        private void OnRoundFinished()
+        public void OnRoundFinished()
         {
             Debug.Assert(State is BattleState.PlayerTurn or BattleState.EnemyTurn);
             State = BattleState.FinishingRound;
             Debug.Log("Round finished");
         }
-        private void OnBattleFinished(Team winner)
+        public void OnBattleFinished(Team winner)
         {
             //Debug.Assert(State == ); ???
             State = BattleState.FinishingBattle;

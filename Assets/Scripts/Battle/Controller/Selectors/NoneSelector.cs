@@ -1,4 +1,5 @@
 using System;
+using Battle.Controller.Events.Input;
 using Battle.Data.Skills;
 
 namespace Battle.Controller.Selectors
@@ -10,7 +11,8 @@ namespace Battle.Controller.Selectors
         
         public void SelectTarget(BattleController controller, Character actor, SkillData skill)
         {
-            controller.GameStateEvents.TargetSelectionStarted?.Invoke(skill, actor);
+            controller.EventBus.RaiseEvent<ITargetSelectionStartedHandler>(
+                handler => handler.OnTargetSelectionStarted(skill, actor));
         }
     }
 }

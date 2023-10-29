@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Battle.Controller.Events.Effects;
 using Battle.Data.Stats;
 using UnityEngine;
 
@@ -19,14 +20,14 @@ namespace Battle.Controller.Commands
 
         public void Execute(BattleController controller)
         {
-            controller.CharacterEvents.CharacterHealStarted?.Invoke(this);
+            controller.EventBus.RaiseEvent<IHealStartedHandler>(handler => handler.OnHealStarted(this));
             //CalculateModifiers();
             if (Recipient.DiminishingStats.TryGetValue(Stats.Health, out var health))
             {
                 health.CurrentValue = Mathf.Clamp(health.CurrentValue + Heal, 0, health.MainStat.GetValueInt());
                 //Controller.CharacterEvents.CharacterDiminishingStatChanged(this, health);
             }
-            controller.CharacterEvents.CharacterHealFinished?.Invoke(this);
+            controller.EventBus.RaiseEvent<IHealFinishedHandler>(handler => handler.OnHealFinished(this));
         }
 
         private void CalculateModifiers()

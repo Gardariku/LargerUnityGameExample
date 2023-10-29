@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BrewedInk.WFC;
 using UnityEngine;
+using World.PCD.StructureWFC;
 
-namespace World.PCD.StructureWFC
+namespace World.View.GenerationViews
 {
     public class WorldStructureRenderer : MonoBehaviour
     {

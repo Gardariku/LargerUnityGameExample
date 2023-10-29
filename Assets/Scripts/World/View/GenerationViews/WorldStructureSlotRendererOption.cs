@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BrewedInk.WFC;
 using UnityEngine;
 
-namespace World.PCD.StructureWFC
+namespace World.View.GenerationViews
 {
     public class WorldStructureSlotRendererOption : MonoBehaviour
     {

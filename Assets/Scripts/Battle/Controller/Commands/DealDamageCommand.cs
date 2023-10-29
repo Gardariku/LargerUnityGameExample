@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Battle.Controller.Events.Effects;
 using Battle.Data;
 
 namespace Battle.Controller.Commands
@@ -22,9 +23,9 @@ namespace Battle.Controller.Commands
         // TODO: Add modifiers collection and damage result calculations
         public void Execute(BattleController controller)
         {
-            controller.CharacterEvents.CharacterDamageDealingStarted?.Invoke(this);
+            controller.EventBus.RaiseEvent<IDamageStartedHandler>(handler => handler.OnDamageStarted(this));
             //CalculateModifiers();
-            controller.CharacterEvents.CharacterDamageDealingFinished?.Invoke(this);
+            controller.EventBus.RaiseEvent<IDamageFinishedHandler>(handler => handler.OnDamageFinished(this));
             controller.AddCommandBatchLast(new TakeDamageCommand(Victim, Damage));
         }
 

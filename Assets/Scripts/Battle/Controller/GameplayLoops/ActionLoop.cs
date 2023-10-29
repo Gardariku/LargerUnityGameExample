@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Battle.Controller.Events.Character;
 using UnityEngine;
 
 namespace Battle.Controller.GameplayLoops
@@ -15,10 +16,10 @@ namespace Battle.Controller.GameplayLoops
 
         public override IEnumerator Start()
         {
-            _controller.CharacterEvents.CharacterActionStarted?.Invoke();
+            _controller.EventBus.RaiseEvent<IActionStartedHandler>(handler => handler.OnActionStarted());
             yield return null;
             
-            _controller.CharacterEvents.CharacterActionFinished?.Invoke();
+            _controller.EventBus.RaiseEvent<IActionFinishedHandler>(handler => handler.OnActionFinished());
             Model.Reset();
         }
     }

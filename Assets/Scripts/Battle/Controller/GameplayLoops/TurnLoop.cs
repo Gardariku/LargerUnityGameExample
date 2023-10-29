@@ -1,4 +1,5 @@
 using System.Collections;
+using Battle.Controller.Events.Character;
 using UnityEngine;
 
 namespace Battle.Controller.GameplayLoops
@@ -13,7 +14,7 @@ namespace Battle.Controller.GameplayLoops
         public override IEnumerator Start()
         {
             var currentCharacter = _controller.RoundModel.TurnOrder[_controller.RoundModel.CurrentTurn];
-            _controller.GameStateEvents.CharacterTurnStarted?.Invoke(currentCharacter);
+            _controller.EventBus.RaiseEvent<ITurnStartedHandler>(handler => handler.OnTurnStarted(currentCharacter));
 
             if (currentCharacter.Team == Team.Player)
             {
@@ -32,8 +33,7 @@ namespace Battle.Controller.GameplayLoops
             }
             yield return null;
 
-            _controller.GameStateEvents.CharacterTurnEnded?.Invoke(
-                _controller.RoundModel.TurnOrder[_controller.RoundModel.CurrentTurn]);
+            _controller.EventBus.RaiseEvent<ITurnFinishedHandler>(handler => handler.OnTurnFinished(currentCharacter));
             yield return null;
         }
 

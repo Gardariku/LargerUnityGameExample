@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Common.Data_Structures
+namespace Common.DataStructures
 {
     public class Deque<T> : IEnumerable<T>  // двусвязный список
     {

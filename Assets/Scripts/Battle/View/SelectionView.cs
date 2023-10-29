@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Battle.Controller;
+using Battle.Controller.Events.Input;
 using Battle.Controller.Selectors;
 using Battle.Data.Skills;
 using Battle.View.Field;
@@ -10,7 +11,7 @@ namespace Battle.View
 {
     // TODO: Try to fix messy code structure below
     // TODO: Remove selection logic from here?
-    public class SelectionView : MonoBehaviour
+    public class SelectionView : MonoBehaviour, ITargetSelectionStartedHandler
     {
         private BattleView _battleView;
         private FieldView _fieldView;
@@ -32,7 +33,7 @@ namespace Battle.View
 
         private void Start()
         {
-            _battleView.Controller.GameStateEvents.TargetSelectionStarted += OnTargetSelectionStarted;
+            _battleView.Controller.EventBus.Subscribe(this);
             _fieldView.PointerEnteredCell += OnPointerEnteredCell;
             _fieldView.PointerLeftCell += OnPointerLeftCell;
             _fieldView.ClickedOnCell += OnCellClick;
@@ -166,7 +167,7 @@ namespace Battle.View
             _selector = null;
         }
 
-        private void OnTargetSelectionStarted(SkillData skill, Character actor)
+        public void OnTargetSelectionStarted(SkillData skill, Character actor)
         {
             _battleView.State = BattleState.TargetSelection;
             _skill = skill;

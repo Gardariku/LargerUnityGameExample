@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Battle.Controller.Events.Character;
 using UnityEngine;
 
 namespace Battle.Controller.Commands
@@ -14,7 +15,7 @@ namespace Battle.Controller.Commands
         
         public void Execute(BattleController controller)
         {
-            controller.CharacterEvents.CharacterDeathFinished?.Invoke(Target);
+            controller.EventBus.RaiseEvent<IDeathHandler>(handler => handler.OnDeath(Target));
             Debug.Log($"{Target.Data.Name} character died.");
             controller.CheckWinCondition(Target);
         }

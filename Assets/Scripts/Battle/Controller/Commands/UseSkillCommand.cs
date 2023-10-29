@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Battle.Controller.Events.Character;
 using Battle.Data.Skills;
 
 namespace Battle.Controller.Commands
@@ -16,9 +17,9 @@ namespace Battle.Controller.Commands
 
         public void Execute(BattleController controller)
         {
-            controller.CharacterEvents.CharacterAbilityUsageStarted?.Invoke(this);
+            controller.EventBus.RaiseEvent<IAbilityUsageStartedHandler>(handler => handler.OnAbilityUsageStarted(this));
             Skill.Use(controller, User);
-            controller.CharacterEvents.CharacterAbilityUsageFinished?.Invoke(this);
+            controller.EventBus.RaiseEvent<IAbilityUsageFinishedHandler>(handler => handler.OnAbilityUsageFinished(this));
         }
     }
 }

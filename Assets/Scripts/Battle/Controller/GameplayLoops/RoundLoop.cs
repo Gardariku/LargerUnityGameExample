@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Battle.Controller.Commands;
+using Battle.Controller.Events.GameLoop;
 
 namespace Battle.Controller.GameplayLoops
 {
@@ -13,7 +14,7 @@ namespace Battle.Controller.GameplayLoops
         
         public override IEnumerator Start()
         {
-            _controller.GameStateEvents.RoundStarted?.Invoke(_controller.BattleModel.Round++);
+            _controller.EventBus.RaiseEvent<IRoundStartedHandler>(handler => handler.OnRoundStarted(_controller.BattleModel.Round++));
             DetermineTurnOrder();
             Model.CurrentTurn = 0;
 
@@ -37,7 +38,7 @@ namespace Battle.Controller.GameplayLoops
                         + " characters with their own turn but current turn index is " + Model.CurrentTurn);
             }
             
-            _controller.GameStateEvents.RoundEnded?.Invoke();
+            _controller.EventBus.RaiseEvent<IRoundFinishedHandler>(handler => handler.OnRoundFinished());
             yield return null;
         }
 

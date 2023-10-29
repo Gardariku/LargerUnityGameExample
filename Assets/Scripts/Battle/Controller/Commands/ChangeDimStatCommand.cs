@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Battle.Controller.Events.Effects;
 using Battle.Data.Stats;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace Battle.Controller.Commands
         {
             PreviousValue = Stat.CurrentValue;
             Stat.CurrentValue = NewValue;
-            controller.CharacterEvents.CharacterDiminishingStatChanged?.Invoke(this);
+            controller.EventBus.RaiseEvent<IDiminishingStatChangedHandler>(handler => handler.OnDiminishingStatChanged(this));
         }
     }
 }

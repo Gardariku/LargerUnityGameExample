@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Battle.Controller.Events.Character;
 using Battle.Data;
 using UnityEngine;
 
@@ -18,14 +19,14 @@ namespace Battle.Controller.Commands
         
         public void Execute(BattleController controller)
         {
-            controller.CharacterEvents.CharacterAttackStarted?.Invoke(this);
+            controller.EventBus.RaiseEvent<IAttackStartedHandler>(handler => handler.OnAttackStarted(this));
             
             Attacker.Events.Attacked?.Invoke(BattleAnimation.Attack);
             DamageCommand = new DealDamageCommand(Attacker, Target,
                 Attacker.CurrentStats.GetStatInt("DAMAGE"), DamageType.Physical);
             controller.AddCommandMainLast(DamageCommand);
 
-            controller.CharacterEvents.CharacterAttackFinished?.Invoke(this);
+            controller.EventBus.RaiseEvent<IAttackFinishedHandler>(handler => handler.OnAttackFinished(this));
         }
     }
 }
